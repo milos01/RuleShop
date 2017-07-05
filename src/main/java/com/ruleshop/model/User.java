@@ -29,6 +29,17 @@ public class User implements Serializable {
     @JoinColumn(nullable=false, name = "role_id")
     private Role role;
 
+    @OneToOne(mappedBy = "user")
+    private Buyer buyer;
+
+    public Buyer getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(Buyer buyer) {
+        this.buyer = buyer;
+    }
+
     public Boolean hasRole(String rName){
         if(this.role.getRole_name().equals(rName)){
             return true;

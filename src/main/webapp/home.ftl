@@ -48,7 +48,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <#if user.hasRole('manager')>
                             <li>
-                                <a href="#">
+                                <a href="/manage">
                                     Manage settings
                                 </a>
                             </li>

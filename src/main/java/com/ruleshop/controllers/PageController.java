@@ -1,5 +1,6 @@
 package com.ruleshop.controllers;
 
+import com.ruleshop.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,19 @@ public class PageController {
     public String logout(Model model, HttpSession session) {
         session.invalidate();
         return "redirect:/";
+
+    }
+
+    @RequestMapping(value = "/manage", method = RequestMethod.GET)
+    public String manage(Model model, HttpSession session) {
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
+        User u = (User)session.getAttribute("user");
+        if(!u.getRole().getRole_name().equals("manager")){
+            return "redirect:/home";
+        }
+        return "manage";
 
     }
 }
