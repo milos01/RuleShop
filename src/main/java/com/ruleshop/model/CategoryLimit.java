@@ -19,8 +19,8 @@ public class CategoryLimit {
 
     private int point_percent;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(nullable=false, name = "category_id")
     private BuyerCategory buyerCategory;
 
     public int getId() {
@@ -61,5 +61,16 @@ public class CategoryLimit {
 
     public void setBuyerCategory(BuyerCategory buyerCategory) {
         this.buyerCategory = buyerCategory;
+    }
+
+    @Override
+    public String toString() {
+        return "CategoryLimit{" +
+                "id=" + id +
+                ", limit_from=" + limit_from +
+                ", limit_to=" + limit_to +
+                ", point_percent=" + point_percent +
+                ", buyerCategory=" + buyerCategory +
+                '}';
     }
 }

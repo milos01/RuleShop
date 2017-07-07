@@ -1,5 +1,7 @@
 package com.ruleshop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,7 +18,8 @@ public class BuyerCategory {
 
     private String category_name;
 
-    @OneToMany(mappedBy = "buyerCategory", cascade = CascadeType.ALL)
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "buyerCategory")
     private Set<CategoryLimit> limits;
 
     public int getId() {
@@ -42,4 +45,6 @@ public class BuyerCategory {
     public void setLimits(Set<CategoryLimit> limits) {
         this.limits = limits;
     }
+
+
 }

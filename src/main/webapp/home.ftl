@@ -53,6 +53,13 @@
                                 </a>
                             </li>
                             </#if>
+                            <#if user.hasRole('seller')>
+                                <li>
+                                    <a href="/sellsettings">
+                                        Seller page
+                                    </a>
+                                </li>
+                            </#if>
                             <li><a href="/logout">Log out</a></li>
                         </ul>
                     </li>

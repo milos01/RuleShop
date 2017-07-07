@@ -20,7 +20,6 @@ public class UserDAOImplementation implements UserDAO {
 
     @Override
     public User findUser(String email) {
-        System.err.print("aa"+email);
         Session session = this.sessionFactory.getCurrentSession();
         Query query = session.createQuery("from User u where u.email=:email");
         query.setParameter("email",email);

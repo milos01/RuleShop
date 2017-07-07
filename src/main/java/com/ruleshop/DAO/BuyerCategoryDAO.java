@@ -1,22 +1,21 @@
-package com.ruleshop.service;
+package com.ruleshop.DAO;
 
 import com.ruleshop.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by milosandric on 05.07.17.
+ * Created by milosandric on 06.07.17.
  */
-public interface RuleService {
-    public User findUser(String email);
-
+public interface BuyerCategoryDAO {
     public List<BuyerCategory> getAllBCategories();
 
     void addCategory(BuyerCategory category_name);
 
     void addLimit(CategoryLimit limit);
 
-    BuyerCategory findCategory(int category_id);
+    BuyerCategory findCactegory(int category_id);
 
     CategoryLimit findLimit(int limit_id);
 
@@ -34,7 +33,7 @@ public interface RuleService {
 
     Sale addNewSale(Sale sale);
 
-    List<Sale> getAllSles();
+    List<Sale> getAllSales();
 
     Sale findSale(int category_id);
 
