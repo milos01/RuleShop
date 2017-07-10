@@ -2,11 +2,13 @@ package com.ruleshop.controllers;
 
 import com.ruleshop.model.*;
 import com.ruleshop.service.RuleService;
+import org.apache.tools.ant.taskdefs.condition.Http;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -26,9 +28,15 @@ public class PageController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, HttpSession session) {
+
         if(session.getAttribute("user") != null){
+            User user = (User)session.getAttribute("user");
+            if (user.getRole().getRole_name().equals("buyer")) {
+                return "redirect:/home?searchCode=all&searchName=all&category=all&price_from=0&price_to=0";
+            }
             return "redirect:/home";
         }
+
         return "index";
 
     }
@@ -38,11 +46,28 @@ public class PageController {
      * @return index.ftl
      */
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String home(Model model, HttpSession session) {
+    public String home(@RequestParam(value="searchCode") String searchCode,
+                       @RequestParam(value="searchName") String searchName,
+                       @RequestParam(value="category") String category,
+                       @RequestParam(value="price_from") Double price_from,
+                       @RequestParam(value="price_to") Double price_to, Model model, HttpSession session) {
         if(session.getAttribute("user") == null){
             return "redirect:/";
         }
-//        System.err.print(session.getAttribute("name"));
+        User user = (User)session.getAttribute("user");
+        if(user.getRole().getRole_name().equals("buyer")){
+            if(!searchCode.equals("all") && !searchName.equals("all") && !category.equals("") && price_from != 0 && price_to != 0){
+                List<Item> categories = this.ruleService.getAllSICategories(searchCode, searchName, category, price_from, price_to);
+                model.addAttribute("items", categories);
+            }else{
+                List<Item> items = this.ruleService.getAllItems();
+                model.addAttribute("items", items);
+            }
+
+
+
+        }
+
         return "home";
 
     }
@@ -83,5 +108,77 @@ public class PageController {
         model.addAttribute("orderItems", orderItems);
         return "seller";
 
+    }
+
+    @RequestMapping(value = "/billingsettings", method = RequestMethod.GET)
+    public String billingPage(@RequestParam(value="filter") String filter, Model model, HttpSession session) {
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
+        List<Bill> bills = null;
+        if(filter.equals("all")) {
+            bills = this.ruleService.getAllBills();
+            model.addAttribute("bills", bills);
+            return "bill";
+        }else if (filter.equals("ordered")){
+            bills = this.ruleService.getOrderedBills();
+            model.addAttribute("bills", bills);
+            return "bill";
+        }else if (filter.equals("successfully_receved")){
+            bills = this.ruleService.getSuccessBills();
+            model.addAttribute("bills", bills);
+            return "bill";
+        }else if (filter.equals("rejected")){
+            bills = this.ruleService.getRejectedBills();
+            model.addAttribute("bills", bills);
+            return "bill";
+        }
+//        model.addAttribute("bills", bills);
+        return "redirect:/home";
+
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String userProfile(Model model, HttpSession session) {
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
+
+        return "profile";
+
+    }
+
+    @RequestMapping(value = "/mybills", method = RequestMethod.GET)
+    public String myBils(Model model, HttpSession session) {
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
+
+        List<Bill> bills = this.ruleService.getSuccessBills();
+        model.addAttribute("bills", bills);
+        return "mybills";
+    }
+
+    @RequestMapping(value = "/item", method = RequestMethod.GET, produces = "application/json")
+    public String getQuestions(@RequestParam(required = true) String id, @RequestParam(required = true) String name, @RequestParam(required = true) double cost, @RequestParam(required = true) double salePrice) {
+
+        ItemTest newItem = new ItemTest(Long.parseLong(id), name, cost, salePrice);
+
+//        log.debug("Item request received for: " + newItem);
+
+        ItemTest i2 = this.ruleService.getClassifiedItem(newItem);
+        System.err.print(i2);
+        return "/";
+    }
+
+    @RequestMapping(value = "/cart", method = RequestMethod.GET)
+    public String cartPage(HttpSession session, Model model){
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
+        User user = (User)session.getAttribute("user");
+        List<Cart> cart_items = this.ruleService.getUserCartItems(user.getId());
+        model.addAttribute("cart_items", cart_items);
+        return "cart";
     }
 }

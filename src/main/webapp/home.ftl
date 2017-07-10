@@ -58,6 +58,22 @@
                                     <a href="/sellsettings">
                                         Seller page
                                     </a>
+                                    <a href="/billingsettings?filter=all">
+                                        Billing page
+                                    </a>
+                                </li>
+                            </#if>
+                            <#if user.hasRole('buyer')>
+                                <li>
+                                    <a href="/profile">
+                                        Profile page
+                                    </a>
+                                    <a href="/mybills">
+                                        My orders/bills
+                                    </a>
+                                    <a href="/cart">
+                                        My cart
+                                    </a>
                                 </li>
                             </#if>
                             <li><a href="/logout">Log out</a></li>
@@ -75,7 +91,109 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                Home page
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Items
+                                    <span class="pull-right">
+                                        <form action="/searchItems" method="POST">
+                                            <input type="text" name="searchCode" style="width: 80px;" placeholder="Search code...">
+                                            <input type="text" name="searchName" style="width: 80px;"placeholder="Search name...">
+                                            <input type="text" name="category" style="width: 80px;"placeholder="Search category...">
+                                            <input type="number" name="price_from"style="width: 80px;" placeholder="Search price from...">
+                                            <input type="number" name="price_to"style="width: 80px;" placeholder="Search price to...">
+                                            <button type="submit" class="btn btn-default btn-xs">Filter</button>
+                                        </form>
+                                    </span>
+                            <form method="POST" action="/filterBills">
+                                <#--<input type="radio" name="state" value="porucen"> Ordered-->
+                                <#--<input type="radio" name="state" value="odbijen"> Rejected-->
+                                <#--<input type="radio" name="state" value="uspesno_realizovan"> Successfully receved-->
+                                    <#--<a href="/billingsettings?filter=all" type="button" class="btn btn-primary btn-xs">All</a>-->
+                                <#--<a href="/billingsettings?filter=ordered" type="button" class="btn btn-primary btn-xs">Ordered</a>-->
+                                <#--<a href="/billingsettings?filter=rejected" type="button" class="btn btn-primary btn-xs">Rejected</a>-->
+                                <#--<a href="/billingsettings?filter=successfully_receved" type="button" class="btn btn-primary btn-xs">Successfully receved</a>-->
+                            </form>
+                        </span>
+                                <#--<button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target=".newCategoryModal"></button>-->
+                                </div>
+
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                    <#list items as item>
+                                    <#--Add limit modal-->
+                                    <#--<div class="modal fade orderItem${item.id}" role="dialog">-->
+                                    <#--<div class="modal-dialog">-->
+
+                                    <#--<!-- Modal content&ndash;&gt;-->
+                                    <#--<div class="modal-content">-->
+                                    <#--<form method="POST" action="/orderItem">-->
+                                    <#--<div class="modal-header">-->
+                                    <#--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                    <#--<h4 class="modal-title">Order for "${item.name}" item</h4>-->
+                                    <#--</div>-->
+                                    <#--<div class="modal-body">-->
+                                    <#--<input class="form-control" type="hidden" name="item_id" value="${item.id}">-->
+
+                                    <#--<div class="form-group">-->
+                                    <#--<label for="pwd">Quantity</label>-->
+                                    <#--<input class="form-control" type="number" name="item_quantity">-->
+                                    <#--</div>-->
+
+                                    <#--</div>-->
+                                    <#--<div class="modal-footer">-->
+                                    <#--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                    <#--<button type="submit" class="btn btn-primary">Order</button>-->
+                                    <#--</div>-->
+                                    <#--</form>-->
+                                    <#--</div>-->
+                                    <#--</div>-->
+                                    <#--</div>-->
+                                        <!-- End limit modal -->
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                   ${item.name} code: ${item.code} category: ${item.getItemCategory().name} price: ${item.price}
+
+                                                       <form action="/addItemToCart" method="POST" class="pull-right">
+                                                           <input type="hidden" name="item_id" value="${item.id}">
+                                                           <input type="number" name="cartNnum" style="width: 30px">
+                                                           <button type="submit" class="btn btn-default btn-xs" style="margin-top:-3px;">add</button>
+                                                       </form>
+
+                                                       <span class="pull-right" style="margin-right: 5px;">Sale:
+                                                    <#if item.getItemCategory().sale??>
+                                                        ${item.getItemCategory().sale.name} (-${item.getItemCategory().sale.discount_percent}%)
+                                                    <#else >
+                                                        none
+                                                    </#if>
+
+                                                   </span>
+
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                    <#--<li class="list-group-item">Bill: <b style="font-size: 18px">${bill.id}</b>-->
+
+                                    <#--<#if bill.state == "porucen">-->
+                                    <#--<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem" style="margin-left: 10px">Submit order</button>-->
+                                    <#--</#if>-->
+                                    <#--&lt;#&ndash;<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem${item.id}" style="margin-left: 10px">order this item</button>&ndash;&gt;-->
+                                    <#--&lt;#&ndash;<span class="pull-right">Items left in shop: <b>${item.number_left}</b>/ Minimum number on lager: <b>${item.lager_min_state}</b></span>&ndash;&gt;-->
+                                    <#--&lt;#&ndash;<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".renameCatetoryModal${cat.id}" style="margin-right: 10px">rename</button>&ndash;&gt;-->
+                                    <#--</li>-->
+
+                                    <#else>
+                                        No items found!
+                                    </#list>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

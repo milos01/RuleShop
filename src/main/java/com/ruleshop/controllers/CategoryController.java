@@ -201,4 +201,61 @@ public class CategoryController {
 
     }
 
+    @RequestMapping(value = "/filterBills", method = RequestMethod.POST)
+    public String filterBills(Model model) {
+
+        model.addAttribute("bills", "new bills");
+        return "bill";
+
+    }
+
+    @RequestMapping(value = "/submitOrder", method = RequestMethod.POST)
+    public String submitOrder(@RequestParam(value="bill_id") int bill_id, Model model) {
+
+        Bill bill = (Bill)this.ruleService.findBill(bill_id);
+        for (BillItem item: bill.getBill_items()) {
+            Item realItem = (Item)this.ruleService.getItemByName(item.getItem_name());
+            if (item.getItem_quantity() > realItem.getNumber_left()){
+                return "redirect:/billsettings";
+            }else{
+                Double newQuantity = realItem.getNumber_left() - item.getItem_quantity();
+                realItem.setNumber_left(newQuantity);
+                this.ruleService.updateItem(realItem);
+            }
+
+        }
+        bill.setState("uspesno_realizovan");
+        this.ruleService.updateBill(bill);
+        return "redirect:/billsettings";
+
+    }
+
+    @RequestMapping(value = "/searchItems", method = RequestMethod.POST)
+    public String searchItems(@RequestParam(value="searchCode") String searchCode,
+                              @RequestParam(value="searchName") String searchName,
+                              @RequestParam(value="category") String category,
+                              @RequestParam(value="price_from") Double price_from,
+                              @RequestParam(value="price_to") Double price_to, Model model) {
+        System.err.print(price_from+ "aa");
+        return "redirect:/home?searchCode="+searchCode+"&searchName="+searchName+"&category="+category+"&price_from="+price_from+"&price_to="+price_to;
+
+    }
+
+    @RequestMapping(value = "/addItemToCart", method = RequestMethod.POST)
+    public String addItemToCart(@RequestParam(value="item_id") int item_id,
+                              @RequestParam(value="cartNnum") int cartNnum, Model model, HttpSession session) {
+
+        Item item = (Item)this.ruleService.findItem(item_id);
+        User user = (User)session.getAttribute("user");
+
+        Cart cart = new Cart();
+        cart.setItem(item);
+        cart.setUser(user);
+        cart.setQuantity(cartNnum);
+
+        this.ruleService.addCartItem(cart);
+        return "redirect:/cart";
+
+    }
+
 }

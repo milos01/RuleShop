@@ -20,6 +20,8 @@ public class ItemCategory {
 
     private String name;
 
+    private Boolean hasGlobaItemCat;
+
     private int max_discount_percent;
 
     @JsonBackReference
@@ -30,6 +32,14 @@ public class ItemCategory {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sale_id")
     private Sale sale;
+
+    public Boolean getHasGlobaItemCat() {
+        return hasGlobaItemCat;
+    }
+
+    public void setHasGlobaItemCat(Boolean hasGlobaItemCat) {
+        this.hasGlobaItemCat = hasGlobaItemCat;
+    }
 
     public Sale getSale() {
         return sale;

@@ -1,7 +1,10 @@
 package com.ruleshop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by milosandric on 05.07.17.
@@ -31,6 +34,18 @@ public class User implements Serializable {
 
     @OneToOne(mappedBy = "user")
     private Buyer buyer;
+
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Cart> cartItems;
+
+    public Set<Cart> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(Set<Cart> cartItems) {
+        this.cartItems = cartItems;
+    }
 
     public Buyer getBuyer() {
         return buyer;

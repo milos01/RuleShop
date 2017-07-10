@@ -60,6 +60,19 @@
                                     </a>
                                 </li>
                             </#if>
+                            <#if user.hasRole('buyer')>
+                                <li>
+                                    <a href="/profile">
+                                        Profile page
+                                    </a>
+                                    <a href="/mybills">
+                                        My orders/bills
+                                    </a>
+                                    <a href="/cart">
+                                        My cart
+                                    </a>
+                                </li>
+                            </#if>
                             <li><a href="/logout">Log out</a></li>
                         </ul>
                     </li>

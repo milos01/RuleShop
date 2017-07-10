@@ -45,4 +45,28 @@ public interface RuleService {
     Item findItem(int item_id);
 
     void updateItem(Item item);
+
+    List<Bill> getAllBills();
+
+    List<Bill> getOrderedBills();
+
+    List<Bill> getSuccessBills();
+
+    List<Bill> getRejectedBills();
+
+    Bill findBill(int bill_id);
+
+    Item getItemByName(String item_name);
+
+    void updateBill(Bill bill);
+
+    List<Item> getAllSICategories(String searchCode, String searchName, String category, Double price_from, Double price_to);
+
+    List<Item> getAllItems();
+
+    void addCartItem(Cart cart);
+
+    ItemTest getClassifiedItem(ItemTest newItem);
+
+    List<Cart> getUserCartItems(int id);
 }

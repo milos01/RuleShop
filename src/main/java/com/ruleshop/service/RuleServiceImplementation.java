@@ -3,6 +3,10 @@ package com.ruleshop.service;
 import com.ruleshop.DAO.BuyerCategoryDAO;
 import com.ruleshop.DAO.UserDAO;
 import com.ruleshop.model.*;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,21 @@ import java.util.List;
  */
 @Service
 public class RuleServiceImplementation implements RuleService {
+
+    private final KieContainer kieContainer;
+
+    @Autowired
+    public RuleServiceImplementation(KieContainer kieContainer) {
+        this.kieContainer = kieContainer;
+    }
+
+    public ItemTest getClassifiedItem(ItemTest i) {
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.insert(i);
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return i;
+    }
 
     @Autowired
     private UserDAO userDAO;
@@ -136,5 +155,69 @@ public class RuleServiceImplementation implements RuleService {
         this.buyerCategoryDAO.updateItem(item);
     }
 
+    @Override
+    @Transactional
+    public List<Bill> getAllBills() {
+        return this.buyerCategoryDAO.getAllBills();
+    }
 
+    @Override
+    @Transactional
+    public List<Bill> getOrderedBills() {
+        return this.buyerCategoryDAO.getOrderedBills();
+    }
+
+    @Override
+    @Transactional
+    public List<Bill> getSuccessBills() {
+        return this.buyerCategoryDAO.getSuccessBills();
+    }
+
+    @Override
+    @Transactional
+    public List<Bill> getRejectedBills() {
+        return this.buyerCategoryDAO.getRejectedBills();
+    }
+
+    @Override
+    @Transactional
+    public Bill findBill(int bill_id) {
+        return this.buyerCategoryDAO.findBill(bill_id);
+    }
+
+    @Override
+    @Transactional
+    public Item getItemByName(String item_name) {
+        return this.buyerCategoryDAO.findBillByName(item_name);
+    }
+
+    @Override
+    @Transactional
+    public void updateBill(Bill bill) {
+        this.buyerCategoryDAO.updateBill(bill);
+    }
+
+    @Override
+    @Transactional
+    public List<Item> getAllSICategories(String searchCode, String searchName, String category, Double price_from, Double price_to) {
+        return this.buyerCategoryDAO.getAllSICategories(searchCode, searchName, category, price_from, price_to);
+    }
+
+    @Override
+    @Transactional
+    public List<Item> getAllItems() {
+        return this.buyerCategoryDAO.getAllItems();
+    }
+
+    @Override
+    @Transactional
+    public void addCartItem(Cart cart) {
+        this.buyerCategoryDAO.addCartItem(cart);
+    }
+
+    @Override
+    @Transactional
+    public List<Cart> getUserCartItems(int id) {
+        return this.buyerCategoryDAO.getUserCartItems(id);
+    }
 }

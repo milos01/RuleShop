@@ -1,7 +1,10 @@
 package com.ruleshop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by milosandric on 06.07.17.
@@ -33,6 +36,18 @@ public class Item {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private ItemCategory itemCategory;
+
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
+    private Set<Cart> cartItems;
+
+    public Set<Cart> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(Set<Cart> cartItems) {
+        this.cartItems = cartItems;
+    }
 
     public Boolean getNeedOrder() {
         return needOrder;

@@ -177,4 +177,170 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
         Session session = this.sessionFactory.getCurrentSession();
         session.merge(item);
     }
+
+    @Override
+    public List<Bill> getAllBills() {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Bill b");
+        List<Bill> list=query.list();
+        return list;
+    }
+
+    @Override
+    public List<Bill> getOrderedBills() {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Bill b where b.state=:state");
+        query.setParameter("state", "porucen");
+        List<Bill> saleList = query.list();
+
+        return saleList;
+    }
+
+    @Override
+    public List<Bill> getRejectedBills() {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Bill b where b.state=:state");
+        query.setParameter("state", "odbijen");
+        List<Bill> saleList = query.list();
+
+        return saleList;
+    }
+
+    @Override
+    public Bill findBill(int bill_id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Bill b where b.id=:id");
+        query.setParameter("id", bill_id);
+        List<Bill> saleList = query.list();
+        Bill c = null;
+        for(Bill a:saleList){
+            c = a;
+        }
+
+        return c;
+    }
+
+    @Override
+    public Item findBillByName(String item_name) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Item i where i.name=:name");
+        query.setParameter("name", item_name);
+        List<Item> saleList = query.list();
+        Item c = null;
+        for(Item a:saleList){
+            c = a;
+        }
+
+        return c;
+    }
+
+    @Override
+    public void updateBill(Bill bill) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.merge(bill);
+    }
+
+
+
+    @Override
+    public List<Item> getAllSICategories(String searchCode, String searchName, String category, Double price_from, Double price_to) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.itemCategory.name=:category  and i.price>:price_from and i.price<:price_to");
+//        if (!searchCode.equals("") && searchName.equals("") && category.equals("") && price_from == null && price_to == null){
+//            Query query=session.createQuery("from Item i where  i.code=:searchCode");
+//        }else if (searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from == null && price_to == null){
+//            Query query=session.createQuery("from Item i where  i.name=:searchName");
+//        }else if (searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from == null && price_to == null){
+//            Query query=session.createQuery("from Item i where  i.itemCategory.name=:category");
+//        }else if (searchCode.equals("") && searchName.equals("") && category.equals("") && price_from != null && price_to == null){
+//            Query query=session.createQuery("from Item i where  i.price>:price_from");
+//        }else if (searchCode.equals("") && searchName.equals("") && category.equals("") && price_from == null && price_to != null){
+//            Query query=session.createQuery("from Item i where  i.price<:price_from");
+//        }else if (!searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from == null && price_to == null){
+//            Query query=session.createQuery("from Item i where  i.code=:searchCode and i.name=:searchName");
+//        }else if (!searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from == null && price_to == null){
+//            Query query=session.createQuery("from Item i where  i.code=:searchCode and i.itemCategory.name=:category");
+//        } else if (!searchCode.equals("") && searchName.equals("") && category.equals("") && price_from != null && price_to == null){
+//            Query query=session.createQuery("from Item i where  i.code=:searchCode and i.price>:price_from");
+//        } else if (!searchCode.equals("") && searchName.equals("") && category.equals("") && price_from == null && price_to != null){
+//            Query query=session.createQuery("from Item i where  i.code=:searchCode and i.price<:price_from");
+//        }else if (searchCode.equals("") && !searchName.equals("") && !category.equals("") && price_from == null && price_to == null){
+//            Query query=session.createQuery("from Item i where i.name=:searchName and i.itemCategory.name=:category");
+//        }else if (searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from != null && price_to == null){
+//            Query query=session.createQuery("from Item i where i.name=:searchName and i.price>:price_from");
+//        }else if (searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from == null && price_to != null){
+//            Query query=session.createQuery("from Item i where i.name=:searchName and i.price<:price_from");
+//        }else if (searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from != null && price_to == null){
+//            Query query=session.createQuery("from Item i where i.itemCategory.name=:category and i.price>:price_from");
+//        }else if (searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from == null && price_to != null){
+//            Query query=session.createQuery("from Item i where i.itemCategory.name=:category and i.price<:price_from");
+//        }else if (searchCode.equals("") && searchName.equals("") && category.equals("") && price_from != null && price_to != null){
+//            Query query=session.createQuery("from Item i where i.price>:price_from and i.price<:price_from");
+//        }else if (!searchCode.equals("") && !searchName.equals("") && !category.equals("") && price_from == null && price_to == null){
+//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.itemCategory.name=:category");
+//        }else if (!searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from != null && price_to == null){
+//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.price>:price_from");
+//        }else if (!searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from == null && price_to != null){
+//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.price<:price_from");
+//        }else if (!searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from != null && price_to == null){
+//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.itemCategory.name=:category and i.price>:price_from");
+//        }else if (!searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from == null && price_to != null){
+//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.itemCategory.name=:category and i.price<:price_from");
+//        }else if (!searchCode.equals("") && searchName.equals("") && category.equals("") && price_from != null && price_to != null){
+//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.price>:price_from and i.price<:price_from");
+//        }
+
+
+
+
+
+
+
+
+//             Query query=session.createQuery("from Item i where i.name =:searchName and i.code=:searchCode");
+        query.setParameter("searchName", searchName);
+        query.setParameter("searchCode", searchCode);
+        query.setParameter("category", category);
+        query.setParameter("price_from", price_from);
+        query.setParameter("price_to", price_to);
+
+        List<Item> saleList = query.list();
+
+        return saleList;
+    }
+
+    @Override
+    public List<Item> getAllItems() {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Item i");
+        List<Item> saleList = query.list();
+
+        return saleList;
+    }
+
+    @Override
+    public void addCartItem(Cart cart) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.persist(cart);
+    }
+
+    @Override
+    public List<Cart> getUserCartItems(int id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Cart c where c.user.id=:id");
+        query.setParameter("id", id);
+        List<Cart> saleList = query.list();
+
+        return saleList;
+    }
+
+    @Override
+    public List<Bill> getSuccessBills() {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Bill b where b.state=:state");
+        query.setParameter("state", "uspesno_realizovan");
+        List<Bill> saleList = query.list();
+
+        return saleList;
+    }
 }

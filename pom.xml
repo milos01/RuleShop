@@ -67,6 +67,29 @@
             <artifactId>hibernate-validator</artifactId>
             <version>5.1.2.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-ci</artifactId>
+            <version>6.5.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <version>6.5.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>drools-spring-v2</groupId>
+            <artifactId>drools-spring-v2-kjar</artifactId>
+            <type>jar</type>
+            <version>
+                0.0.1-SNAPSHOT
+            </version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>

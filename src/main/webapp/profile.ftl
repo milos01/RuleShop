@@ -89,52 +89,18 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Items to order
-                        <#--<button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target=".newCategoryModal"></button>-->
+                    <div class="panel-heading">User info
                     </div>
 
                     <div class="panel-body">
                         <ul class="list-group">
-                        <#list orderItems as item>
-                        <#--Add limit modal-->
-                            <div class="modal fade orderItem${item.id}" role="dialog">
-                                <div class="modal-dialog">
+                            <div class="container">First name: ${user.first_name}</div>
+                            <div class="container">Last name: ${user.last_name}</div>
+                            <div class="container">Email: ${user.email}</div>
 
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <form method="POST" action="/orderItem">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 class="modal-title">Order for "${item.name}" item</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input class="form-control" type="hidden" name="item_id" value="${item.id}">
-
-                                                <div class="form-group">
-                                                    <label for="pwd">Quantity</label>
-                                                    <input class="form-control" type="number" name="item_quantity">
-                                                </div>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Order</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End limit modal -->
-
-                            <li class="list-group-item">Category: <b style="font-size: 18px">${item.name}</b>
-                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem${item.id}" style="margin-left: 10px">order this item</button>
-                                <span class="pull-right">Items left in shop: <b>${item.number_left}</b>/ Minimum number on lager: <b>${item.lager_min_state}</b></span>
-                                <#--<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".renameCatetoryModal${cat.id}" style="margin-right: 10px">rename</button>-->
-                            </li>
-
-                        <#else>
-                            No items for order found!
-                        </#list>
+                            <div class="container">Address: ${user.buyer.address} numner: ${user.buyer.address_no}</div>
+                            <div class="container">Points: ${user.buyer.points}</div>
+                            <div class="container">Current category: ${user.buyer.buyerCategory.category_name}</div>
                         </ul>
                     </div>
                 </div>
