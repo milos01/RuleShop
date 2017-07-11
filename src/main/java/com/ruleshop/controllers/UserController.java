@@ -37,6 +37,10 @@ public class UserController {
         session.setAttribute("user",user);
         if (user.getRole().getRole_name().equals("buyer")) {
             return "redirect:/home?searchCode=all&searchName=all&category=all&price_from=0&price_to=0";
+        }else if(user.getRole().getRole_name().equals("manager")){
+            return "redirect:/manage";
+        }else if(user.getRole().getRole_name().equals("seller")){
+            return "redirect:/sellsettings";
         }
         return "redirect:/home";
     }

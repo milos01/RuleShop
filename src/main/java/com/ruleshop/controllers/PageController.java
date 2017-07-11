@@ -33,6 +33,10 @@ public class PageController {
             User user = (User)session.getAttribute("user");
             if (user.getRole().getRole_name().equals("buyer")) {
                 return "redirect:/home?searchCode=all&searchName=all&category=all&price_from=0&price_to=0";
+            }else if(user.getRole().getRole_name().equals("manager")){
+                return "redirect:/manage";
+            }else if(user.getRole().getRole_name().equals("seller")){
+                return "redirect:/sellsettings";
             }
             return "redirect:/home";
         }
@@ -86,7 +90,7 @@ public class PageController {
         }
         User u = (User)session.getAttribute("user");
         if(!u.getRole().getRole_name().equals("manager")){
-            return "redirect:/home";
+            return "redirect:/";
         }
 
         List<BuyerCategory> bc = this.ruleService.getAllBCategories();
@@ -104,6 +108,21 @@ public class PageController {
         if(session.getAttribute("user") == null){
             return "redirect:/";
         }
+        User u = (User)session.getAttribute("user");
+        if(!u.getRole().getRole_name().equals("seller")){
+            return "redirect:/";
+        }
+
+
+
+        List<Item> itemss = this.ruleService.getAllItems();
+        for (Item i: itemss) {
+            //call drools for order
+            Item item = (Item)this.ruleService.getFillingStock(i);
+            this.ruleService.updateItem(item);
+            //call drools for order
+        }
+
         List<Item> orderItems = this.ruleService.getItemsForOrder();
         model.addAttribute("orderItems", orderItems);
         return "seller";
@@ -159,17 +178,17 @@ public class PageController {
         return "mybills";
     }
 
-    @RequestMapping(value = "/item", method = RequestMethod.GET, produces = "application/json")
-    public String getQuestions(@RequestParam(required = true) String id, @RequestParam(required = true) String name, @RequestParam(required = true) double cost, @RequestParam(required = true) double salePrice) {
-
-        ItemTest newItem = new ItemTest(Long.parseLong(id), name, cost, salePrice);
-
-//        log.debug("Item request received for: " + newItem);
-
-        ItemTest i2 = this.ruleService.getClassifiedItem(newItem);
-        System.err.print(i2);
-        return "/";
-    }
+//    @RequestMapping(value = "/item", method = RequestMethod.GET, produces = "application/json")
+//    public String getQuestions(@RequestParam(required = true) String id, @RequestParam(required = true) String name, @RequestParam(required = true) double cost, @RequestParam(required = true) double salePrice) {
+//
+//        ItemTest newItem = new ItemTest(Long.parseLong(id), name, cost, salePrice);
+//
+////        log.debug("Item request received for: " + newItem);
+//
+//        ItemTest i2 = this.ruleService.getClassifiedItem(newItem);
+//        System.err.print(i2);
+//        return "/";
+//    }
 
     @RequestMapping(value = "/cart", method = RequestMethod.GET)
     public String cartPage(HttpSession session, Model model){

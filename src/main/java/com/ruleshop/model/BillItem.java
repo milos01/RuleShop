@@ -1,6 +1,10 @@
 package com.ruleshop.model;
 
+import antlr.collections.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.util.*;
 
 /**
  * Created by milosandric on 08.07.17.
@@ -13,9 +17,9 @@ public class BillItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String item_name;
-
-    private Double item_price;
+    @ManyToOne(fetch= FetchType.EAGER)
+    @JoinColumn(nullable=false, name = "item_id")
+    private Item item;
 
     private int item_quantity;
 
@@ -27,22 +31,51 @@ public class BillItem {
     @JoinColumn(nullable=false, name = "bill_id")
     private Bill bill;
 
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "billItem")
+    private Set<ItemDiscount> discounts;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Set<ItemDiscount> getDiscounts() {
+        return discounts;
+    }
+
+    public void setDiscounts(Set<ItemDiscount> discounts) {
+        this.discounts = discounts;
+    }
+
     private String lista_primenjenih_popusta;
 
-    public String getItem_name() {
-        return item_name;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItem_name(String item_name) {
-        this.item_name = item_name;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    public Double getItem_price() {
-        return item_price;
+    public void addItemDiscount(ItemDiscount itemDiscount){
+        if (this.discounts == null) {
+
+            this.discounts = new HashSet<ItemDiscount>();
+
+        }
+        this.discounts.add(itemDiscount);
+        this.setDiscounts(this.discounts);
+        System.err.print("a");
     }
 
-    public void setItem_price(Double item_price) {
-        this.item_price = item_price;
+    public void countPrice(){
+        System.err.print("kita");
+        Double currPrice = this.getItem_quantity()*this.getItem().getPrice();
+        this.final_price = currPrice - ((currPrice*this.getDiscount_percent())/100);
     }
 
     public int getItem_quantity() {

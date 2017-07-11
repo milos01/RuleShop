@@ -1,5 +1,6 @@
 package com.ruleshop.DAO;
 
+import com.ruleshop.model.BillItem;
 import com.ruleshop.model.User;
 
 /**
@@ -7,4 +8,6 @@ import com.ruleshop.model.User;
  */
 public interface UserDAO {
     public User findUser(String email);
+
+
 }

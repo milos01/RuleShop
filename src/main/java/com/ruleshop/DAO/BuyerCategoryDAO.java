@@ -66,4 +66,14 @@ public interface BuyerCategoryDAO {
     void addCartItem(Cart cart);
 
     List<Cart> getUserCartItems(int id);
+
+    void addItemDiscount(ItemDiscount id);
+
+    void addBillItem(BillItem bitem);
+
+    void addBillDiscount(BillDiscount billDiscount);
+
+    void addBill(Bill bill);
+
+    void updateBillItem(BillItem bill_item);
 }

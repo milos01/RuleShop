@@ -2,6 +2,7 @@ package com.ruleshop.controllers;
 
 import com.ruleshop.model.*;
 import com.ruleshop.service.RuleService;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by milosandric on 06.07.17.
@@ -99,11 +97,17 @@ public class CategoryController {
     @RequestMapping(value = "/addItemCategory", method = RequestMethod.POST)
     public String addItemCategory(@RequestParam(value="code") String code,
                                  @RequestParam(value="name") String name,
-                                  @RequestParam(value="point_percent") int percent) {
+                                  @RequestParam(value="point_percent") int percent,
+                                  @RequestParam(value = "consumer_goods", required = false) String consumer_goods) {
 
         ItemCategory ic = new ItemCategory();
         ic.setCode(code);
         ic.setName(name);
+        if(consumer_goods == null){
+           ic.setHasGlobaItemCat(false);
+        }else{
+            ic.setHasGlobaItemCat(true);
+        }
         ic.setMax_discount_percent(percent);
 
         this.ruleService.addItemCategory(ic);
@@ -114,13 +118,18 @@ public class CategoryController {
     @RequestMapping(value = "/updateItemCategory", method = RequestMethod.POST)
     public String updateItemCategory( @RequestParam(value="category_id") int category_id,
                                         @RequestParam(value="name") String name,
-                                      @RequestParam(value="point_percent") int percent) {
+                                      @RequestParam(value="point_percent") int percent,
+                                      @RequestParam(value = "consumer_goods", required = false) String consumer_goods) {
 
         ItemCategory ic = (ItemCategory) this.ruleService.findItemCategory(category_id);
 
         ic.setName(name);
         ic.setMax_discount_percent(percent);
-
+        if(consumer_goods == null){
+            ic.setHasGlobaItemCat(false);
+        }else{
+            ic.setHasGlobaItemCat(true);
+        }
         this.ruleService.updateItemCategory(ic);
         return "redirect:/manage";
 
@@ -214,9 +223,9 @@ public class CategoryController {
 
         Bill bill = (Bill)this.ruleService.findBill(bill_id);
         for (BillItem item: bill.getBill_items()) {
-            Item realItem = (Item)this.ruleService.getItemByName(item.getItem_name());
+            Item realItem = (Item)this.ruleService.getItemByName(item.getItem().getName());
             if (item.getItem_quantity() > realItem.getNumber_left()){
-                return "redirect:/billsettings";
+                return "redirect:/billingsettings?filter=all";
             }else{
                 Double newQuantity = realItem.getNumber_left() - item.getItem_quantity();
                 realItem.setNumber_left(newQuantity);
@@ -226,7 +235,18 @@ public class CategoryController {
         }
         bill.setState("uspesno_realizovan");
         this.ruleService.updateBill(bill);
-        return "redirect:/billsettings";
+        return "redirect:/billingsettings?filter=all";
+
+    }
+
+    @RequestMapping(value = "/rejectOrder", method = RequestMethod.POST)
+    public String rejectOrder(@RequestParam(value="bill_id") int bill_id, Model model) {
+
+        Bill bill = (Bill)this.ruleService.findBill(bill_id);
+        bill.setState("odbijen");
+
+        this.ruleService.updateBill(bill);
+        return "redirect:/billingsettings?filter=all";
 
     }
 
@@ -254,6 +274,140 @@ public class CategoryController {
         cart.setQuantity(cartNnum);
 
         this.ruleService.addCartItem(cart);
+        return "redirect:/cart";
+
+    }
+
+    @RequestMapping(value = "/orderCheckout", method = RequestMethod.POST)
+    public String orderCheckout(Model model, HttpSession session) {
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
+        User user = (User)session.getAttribute("user");
+        List<Cart> cart_items = this.ruleService.getUserCartItems(user.getId());
+        Double brutoPrice = 0.0;
+
+
+        for (Cart item: cart_items) {
+            brutoPrice += (item.getQuantity() * item.getItem().getPrice());
+        }
+
+        Bill bill = new Bill();
+        bill.setOrigina_price(brutoPrice);
+        bill.setCeated_at(new Date());
+        bill.setState("porucen");
+        bill.setBuyer(user.getBuyer());
+
+        this.ruleService.addBill(bill);
+        Set<BillItem> bi = new HashSet<BillItem>();
+        for (Cart item: cart_items) {
+            BillItem bill_item = new BillItem();
+            bill_item.setBill(bill);
+            bill_item.setItem_quantity(item.getQuantity());
+            bill_item.setItem(item.getItem());
+//            bill_item.setFinal_price(100.0);
+//            bill_item.setDiscounts();
+            //drools for bill item discounts
+            this.ruleService.getBillItemDiscounts(bill_item);
+            this.ruleService.addBillItem(bill_item);
+            Set<ItemDiscount> itemDiscounts = bill_item.getDiscounts();
+//
+            if (itemDiscounts != null){
+                for (ItemDiscount id: itemDiscounts) {
+                    this.ruleService.addItemDiscount(id);
+                }
+            }
+
+            this.ruleService.getItemsFinalDiscounts(bill_item);
+            this.ruleService.updateBillItem(bill_item);
+
+
+            bi.add(bill_item);
+
+        }
+        bill.setBill_items(bi);
+
+        this.ruleService.getBillDiscounts(bill);
+
+
+        Set<BillDiscount> itemDiscounts = bill.getDiscounts();
+
+        if (itemDiscounts != null){
+            for (BillDiscount billDiscount: itemDiscounts) {
+                this.ruleService.addBillDiscount(billDiscount);
+            }
+        }
+
+        //final price and all for bill
+        this.ruleService.getFinalDiscounts(bill);
+        this.ruleService.updateBill(bill);
+
+
+
+
+
+
+
+
+
+//        //Bill item rules
+//        for (Cart item: cart_items) {
+//            BillItem bill_item = new BillItem();
+//            bill_item.setBill(this.ruleService.findBill(1));
+//            bill_item.setItem_quantity(item.getQuantity());
+//            bill_item.setItem(item.getItem());
+////            bill_item.setDiscounts();
+//            //drools for bill item discounts
+//            this.ruleService.getBillItemDiscounts(bill_item);
+//            this.ruleService.addBillItem(bill_item);
+//
+//
+//            Set<ItemDiscount> itemDiscounts = bill_item.getDiscounts();
+//
+//            if (itemDiscounts != null){
+////                Double tmp = 0.0;
+//                Map<ItemDiscount, Double> itemMap = new HashMap<ItemDiscount, Double>();
+////                int tmpId = 1;
+//                for (ItemDiscount id: itemDiscounts) {
+//                    //best discount form all discounts
+//                    int it_q = id.getBillItem().getItem_quantity();
+//                    Double it_p = id.getBillItem().getItem().getPrice();
+//                    Double disc = ((it_q * it_p) * id.getDiscount_percent())/100;
+//                    System.err.print(disc);
+//                    itemMap.put(id, disc);
+////                    this.ruleService.addItemDiscount(id);
+////                    tmp = 0.0;
+////                    tmpId++;
+//                }
+//                Double i = 0.0;
+//                for(ItemDiscount key: itemMap.keySet()){
+//                    if (itemMap.get(key) > i){
+//                        i = itemMap.get(key);
+//                    }
+//
+//                }
+//                for(ItemDiscount key: itemMap.keySet()){
+//                    if (itemMap.get(key) == i){
+//                        this.ruleService.addItemDiscount(key);
+//                    }
+//
+//                }
+//
+////                System.out.println(key + " - " + vehicles.get(key));
+//
+//            }
+//            System.err.print("<-"+itemDiscounts);
+////            this.ruleService.addBillItem(bill_item);
+//            while (itemDiscounts.iterator().hasNext()){
+//                System.err.print(itemDiscounts.iterator().next());
+//            }
+
+
+//
+
+
+//        }
+
         return "redirect:/cart";
 
     }

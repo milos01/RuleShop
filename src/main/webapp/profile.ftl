@@ -58,6 +58,9 @@
                                     <a href="/sellsettings">
                                         Seller page
                                     </a>
+                                    <a href="/billingsettings?filter=all">
+                                        Billing page
+                                    </a>
                                 </li>
                             </#if>
                             <#if user.hasRole('buyer')>

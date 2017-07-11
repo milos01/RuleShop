@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -31,6 +32,16 @@ public class User implements Serializable {
     @ManyToOne(targetEntity = Role.class,fetch=FetchType.EAGER)
     @JoinColumn(nullable=false, name = "role_id")
     private Role role;
+
+    private Date ceated_at;
+
+    public Date getCreatedAt() {
+        return ceated_at;
+    }
+
+    public void setCreatedAt(Date ceated_at) {
+        this.ceated_at = ceated_at;
+    }
 
     @OneToOne(mappedBy = "user")
     private Buyer buyer;

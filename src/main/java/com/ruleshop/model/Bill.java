@@ -3,7 +3,9 @@ package com.ruleshop.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,11 +40,36 @@ public class Bill {
 
     private String lista_popusta;
 
-    private String lista_stavki_racuna;
 
     @JsonBackReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bill")
-    private Set<BillItem> bill_items;
+    public Set<BillItem> bill_items;
+
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bill")
+    private Set<BillDiscount> discounts;
+
+    public void addBillDiscount(BillDiscount billDiscount){
+        if (this.discounts == null) {
+
+            this.discounts = new HashSet<BillDiscount>();
+
+        }
+        this.discounts.add(billDiscount);
+        this.setDiscounts(this.discounts);
+    }
+
+    public void applyDiscount(){
+        this.final_price = this.origina_price - (this.origina_price * this.discount_percent)/100;
+    }
+
+    public Set<BillDiscount> getDiscounts() {
+        return discounts;
+    }
+
+    public void setDiscounts(Set<BillDiscount> discounts) {
+        this.discounts = discounts;
+    }
 
     public Set<BillItem> getBill_items() {
         return bill_items;
@@ -96,8 +123,7 @@ public class Bill {
         return discount_percent;
     }
 
-    public void setDiscount_percent(int discount_percent) {
-        this.discount_percent = discount_percent;
+    public void setDiscount_percent(int discount_percent) { this.discount_percent = discount_percent;
     }
 
     public Double getFinal_price() {
@@ -132,11 +158,4 @@ public class Bill {
         this.lista_popusta = lista_popusta;
     }
 
-    public String getLista_stavki_racuna() {
-        return lista_stavki_racuna;
-    }
-
-    public void setLista_stavki_racuna(String lista_stavki_racuna) {
-        this.lista_stavki_racuna = lista_stavki_racuna;
-    }
 }

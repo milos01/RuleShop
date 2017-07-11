@@ -5,13 +5,12 @@ import com.ruleshop.DAO.UserDAO;
 import com.ruleshop.model.*;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,13 +26,61 @@ public class RuleServiceImplementation implements RuleService {
         this.kieContainer = kieContainer;
     }
 
-    public ItemTest getClassifiedItem(ItemTest i) {
+    public Item getFillingStock(Item item) {
         KieSession kieSession = kieContainer.newKieSession();
-        kieSession.insert(i);
+        kieSession.insert(item);
+        kieSession.getAgenda().getAgendaGroup("fill_stocks").setFocus();
         kieSession.fireAllRules();
         kieSession.dispose();
-        return i;
+        return item;
     }
+
+    public BillItem getBillItemDiscounts(BillItem item) {
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.insert(item);
+        kieSession.getAgenda().getAgendaGroup("bill_item_discounts").setFocus();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return item;
+    }
+
+    public Bill getBillDiscounts(Bill item) {
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.setGlobal("date2YearsAgo", getdate2YearsAgo());
+        kieSession.insert(item);
+        kieSession.getAgenda().getAgendaGroup("bill_discounts").setFocus();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return item;
+    }
+
+
+    public Bill getFinalDiscounts(Bill item) {
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.setGlobal("date2YearsAgo", getdate2YearsAgo());
+        kieSession.insert(item);
+        kieSession.getAgenda().getAgendaGroup("bill_final_discount").setFocus();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return item;
+    }
+
+    public BillItem getItemsFinalDiscounts(BillItem item) {
+        KieSession kieSession = kieContainer.newKieSession();
+//        kieSession.setGlobal("date2YearsAgo", getdate2YearsAgo());
+        kieSession.insert(item);
+        kieSession.getAgenda().getAgendaGroup("bill_item_final_discount").setFocus();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return item;
+    }
+
+    @Override
+    @Transactional
+    public void updateBillItem(BillItem bill_item) {
+        this.buyerCategoryDAO.updateBillItem(bill_item);
+    }
+
 
     @Autowired
     private UserDAO userDAO;
@@ -215,9 +262,43 @@ public class RuleServiceImplementation implements RuleService {
         this.buyerCategoryDAO.addCartItem(cart);
     }
 
+
     @Override
     @Transactional
     public List<Cart> getUserCartItems(int id) {
         return this.buyerCategoryDAO.getUserCartItems(id);
+    }
+
+    @Override
+    @Transactional
+    public void addItemDiscount(ItemDiscount id) {
+        this.buyerCategoryDAO.addItemDiscount(id);
+    }
+
+    @Override
+    @Transactional
+    public void addBillItem(BillItem bitem) {
+        this.buyerCategoryDAO.addBillItem(bitem);
+    }
+
+    @Override
+    @Transactional
+    public void addBillDiscount(BillDiscount billDiscount) {
+        this.buyerCategoryDAO.addBillDiscount(billDiscount);
+    }
+
+    @Override
+    @Transactional
+    public void addBill(Bill bill) {
+        this.buyerCategoryDAO.addBill(bill);
+    }
+
+
+    public Date getdate2YearsAgo() {
+        Calendar cal = Calendar.getInstance();
+        Date today = cal.getTime();
+        cal.add(Calendar.YEAR, -2); // to get previous year add -1
+        Date past2yearsYears = cal.getTime();
+        return past2yearsYears;
     }
 }

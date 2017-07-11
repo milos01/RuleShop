@@ -58,6 +58,9 @@
                                     <a href="/sellsettings">
                                         Seller page
                                     </a>
+                                    <a href="/billingsettings?filter=all">
+                                        Billing page
+                                    </a>
                                 </li>
                             </#if>
                             <#if user.hasRole('buyer')>
@@ -127,6 +130,7 @@
                             <!-- End limit modal -->
 
                             <li class="list-group-item">Category: <b style="font-size: 18px">${item.name}</b>
+
                                 <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem${item.id}" style="margin-left: 10px">order this item</button>
                                 <span class="pull-right">Items left in shop: <b>${item.number_left}</b>/ Minimum number on lager: <b>${item.lager_min_state}</b></span>
                                 <#--<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".renameCatetoryModal${cat.id}" style="margin-right: 10px">rename</button>-->

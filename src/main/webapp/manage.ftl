@@ -58,6 +58,9 @@
                                     <a href="/sellsettings">
                                         Seller page
                                     </a>
+                                    <a href="/billingsettings?filter=all">
+                                        Billing page
+                                    </a>
                                 </li>
                             </#if>
                             <#if user.hasRole('buyer')>
@@ -149,6 +152,8 @@
                             <label for="pwd">Max discount percent:</label>
                             <input class="form-control" type="number" name="point_percent">
                         </div>
+                    <hr/>
+                    <input type="checkbox" name="consumer_goods"> Consumer goods
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -202,6 +207,7 @@
                             <label for="coding">${cat.name}</label>
                             </#if>
                         </#list>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -307,11 +313,12 @@
                                                     <input class="form-control" type="hidden" name="limit_id" value="${limit.id}">
                                                     <div class="form-group">
                                                         <label for="pwd">Total price from:</label>
-                                                        <input class="form-control" type="number" name="limit_from" value="${limit.limit_from}">
+
+                                                        <input class="form-control" type="number" name="limit_from" placeholder="${limit.limit_from}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="pwd">Total price to:</label>
-                                                        <input class="form-control" type="number" name="limit_to" value="${limit.limit_to}">
+                                                        <input class="form-control" type="number" name="limit_to" placeholder="${limit.limit_to}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="pwd">Point percent:</label>
@@ -383,6 +390,12 @@
                                                     <label for="pwd">Max discount percent:</label>
                                                     <input class="form-control" type="number" name="point_percent" value="${cat.max_discount_percent}">
                                                 </div>
+                                                <hr/>
+                                                <#if cat.hasGlobaItemCat == true>
+                                                <input type="checkbox" name="consumer_goods" checked> Consumer goods
+                                                <#else>
+                                                    <input type="checkbox" name="consumer_goods"> Consumer goods
+                                                </#if>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -477,7 +490,7 @@
                             </div>
                             <!-- End limit modal -->
                             <!-- End rename category modal -->
-                            <li class="list-group-item">Sale name: <b style="font-size: 18px">${cat.name}</b> (${cat.discount_percent}%)
+                            <li class="list-group-item">Sale: <b style="font-size: 18px">${cat.name}</b> (${cat.discount_percent}%)
                                 <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".updateSale${cat.id}" style="margin-left: 10px">Update</button>
                                 <span class="pull-right">From: ${cat.sale_from} / To: ${cat.sale_to}</span>
                             <#--<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".newLimitModal${cat.id}">add limit</button>-->

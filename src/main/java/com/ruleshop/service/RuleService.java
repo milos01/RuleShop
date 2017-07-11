@@ -2,6 +2,7 @@ package com.ruleshop.service;
 
 import com.ruleshop.model.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,7 +67,26 @@ public interface RuleService {
 
     void addCartItem(Cart cart);
 
-    ItemTest getClassifiedItem(ItemTest newItem);
+    Item getFillingStock(Item item);
+
+    BillItem getBillItemDiscounts(BillItem item);
+
+    Bill getBillDiscounts(Bill item);
 
     List<Cart> getUserCartItems(int id);
+
+    void addItemDiscount(ItemDiscount id);
+
+    void addBillItem(BillItem bitem);
+
+    void addBillDiscount(BillDiscount billDiscount);
+
+    void addBill(Bill bill);
+
+    Bill getFinalDiscounts(Bill item);
+
+    BillItem getItemsFinalDiscounts(BillItem item);
+
+    void updateBillItem(BillItem bill_item);
 }
+

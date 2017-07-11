@@ -335,6 +335,36 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     }
 
     @Override
+    public void addItemDiscount(ItemDiscount id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.persist(id);
+    }
+
+    @Override
+    public void addBillItem(BillItem bitem) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.persist(bitem);
+    }
+
+    @Override
+    public void addBillDiscount(BillDiscount billDiscount) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.persist(billDiscount);
+    }
+
+    @Override
+    public void addBill(Bill bill) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.persist(bill);
+    }
+
+    @Override
+    public void updateBillItem(BillItem bill_item) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.merge(bill_item);
+    }
+
+    @Override
     public List<Bill> getSuccessBills() {
         Session session = this.sessionFactory.getCurrentSession();
         Query query=session.createQuery("from Bill b where b.state=:state");
@@ -343,4 +373,6 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
 
         return saleList;
     }
+
+
 }

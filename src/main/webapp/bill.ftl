@@ -58,6 +58,9 @@
                                     <a href="/sellsettings">
                                         Seller page
                                     </a>
+                                    <a href="/billingsettings?filter=all">
+                                        Billing page
+                                    </a>
                                 </li>
                             </#if>
                             <#if user.hasRole('buyer')>
@@ -144,7 +147,7 @@
 
                                         </a>
                                         <#if bill.state == "porucen">
-                                            <form action="/submitOrder" method="POST">
+                                            <form action="/rejectOrder" method="POST">
                                                 <input type="hidden" name="bill_id" style="margin-top: -15px" value="${bill.id}">
                                                 <button class="btn btn-danger btn-xs pull-right" type="submit" style="margin-top: -20px; margin-left: 10px">reject</button>
 
@@ -166,6 +169,8 @@
                                                     <span>(${item.item_quantity}) $${item.item_price}</span>
                                                 </span>
                                             </li>
+                                        <#else>
+                                            No bill items!
                                         </#list>
                                     </div>
                                 </div>

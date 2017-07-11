@@ -39,6 +39,10 @@ public class Item {
 
     @JsonBackReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
+    private Set<BillItem> items;
+
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
     private Set<Cart> cartItems;
 
     public Set<Cart> getCartItems() {
