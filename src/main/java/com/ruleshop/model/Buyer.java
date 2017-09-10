@@ -20,7 +20,7 @@ public class Buyer {
 
     private int address_no;
 
-    private String points;
+    private double points;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -74,11 +74,11 @@ public class Buyer {
         this.address_no = address_no;
     }
 
-    public String getPoints() {
+    public double getPoints() {
         return points;
     }
 
-    public void setPoints(String points) {
+    public void setPoints(double points) {
         this.points = points;
     }
 

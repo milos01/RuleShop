@@ -2,7 +2,7 @@ package com.ruleshop.DAO;
 
 import com.ruleshop.model.*;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,7 +73,11 @@ public interface BuyerCategoryDAO {
 
     void addBillDiscount(BillDiscount billDiscount);
 
-    void addBill(Bill bill);
+    Bill addBill(Bill bill);
 
     void updateBillItem(BillItem bill_item);
+
+    List<Bill> findByDateAfterAndCustomer(Date date, int id);
+
+    List<Sale> findByDateEndingAfter(Date date);
 }

@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -343,7 +343,7 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public void addBillItem(BillItem bitem) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.persist(bitem);
+        session.merge(bitem);
     }
 
     @Override
@@ -353,15 +353,38 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     }
 
     @Override
-    public void addBill(Bill bill) {
+    public Bill addBill(Bill bill) {
         Session session = this.sessionFactory.getCurrentSession();
         session.persist(bill);
+        return bill;
     }
 
     @Override
     public void updateBillItem(BillItem bill_item) {
         Session session = this.sessionFactory.getCurrentSession();
         session.merge(bill_item);
+    }
+
+    @Override
+    public List<Bill> findByDateAfterAndCustomer(Date date, int id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Bill b where b.buyer.id=:id and b.ceated_at > :time");
+        query.setParameter("id", id);
+        query.setParameter("time", date);
+        List<Bill> saleList = query.list();
+
+        return saleList;
+    }
+
+    @Override
+    public List<Sale> findByDateEndingAfter(Date date) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query=session.createQuery("from Sale s where s.sale_from < :now and s.sale_to > :now");
+
+        query.setParameter("now", date);
+        List<Sale> saleList = query.list();
+
+        return saleList;
     }
 
     @Override

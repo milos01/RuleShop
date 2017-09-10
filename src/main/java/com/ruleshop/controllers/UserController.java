@@ -1,5 +1,8 @@
 package com.ruleshop.controllers;
 
+import com.ruleshop.model.Buyer;
+import com.ruleshop.model.BuyerCategory;
+import com.ruleshop.model.Role;
 import com.ruleshop.model.User;
 import com.ruleshop.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * Created by milosandric on 05.07.17.
@@ -43,5 +47,39 @@ public class UserController {
             return "redirect:/sellsettings";
         }
         return "redirect:/home";
+    }
+
+    @RequestMapping(value = "/buyerRegister", method = RequestMethod.POST)
+    public String buyerRegister(@RequestParam(value="email") String email,
+                                @RequestParam(value="password") String password,
+                                @RequestParam(value="f_name") String f_name,
+                                @RequestParam(value="l_name") String l_name,
+                                @RequestParam(value="address") String address,
+                                @RequestParam(value="address_no") int address_no){
+        Role role = ruleService.findRole(1);
+        BuyerCategory buyerCategory = ruleService.findCategory(1);
+
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setFirst_name(f_name);
+        user.setLast_name(l_name);
+        user.setRole(role);
+        user.setCreatedAt(new Date());
+
+//        ruleService.addUser(user);
+
+        Buyer buyer = new Buyer();
+        buyer.setAddress(address);
+        buyer.setAddress_no(address_no);
+        buyer.setPoints(0.0);
+        buyer.setBuyerCategory(buyerCategory);
+        buyer.setUser(user);
+        ruleService.addBuyer(buyer);
+
+
+
+        return "redirect:/";
+
     }
 }

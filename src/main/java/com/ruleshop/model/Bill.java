@@ -38,11 +38,10 @@ public class Bill {
 
     private int ganed_points;
 
-    private String lista_popusta;
 
 
     @JsonBackReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bill")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "bill")
     public Set<BillItem> bill_items;
 
     @JsonBackReference
@@ -150,12 +149,11 @@ public class Bill {
         this.ganed_points = ganed_points;
     }
 
-    public String getLista_popusta() {
-        return lista_popusta;
-    }
 
-    public void setLista_popusta(String lista_popusta) {
-        this.lista_popusta = lista_popusta;
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "discounts=" + discounts +
+                '}';
     }
-
 }

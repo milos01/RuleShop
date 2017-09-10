@@ -37,34 +37,34 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    <#if user??>
-                        <!--@else-->
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                <span class="caret"></span>
-                            </a>
+                <#if user??>
+                    <!--@else-->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="caret"></span>
+                        </a>
 
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
 
 
-                                    <form id="logout-form" action="#" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                                <!--@if(Auth::user()->hasRole('manager'))-->
-                                <li>
-                                    <a href="#">
-                                        Manage settings
-                                    </a>
-                                </li>
-                                <!--@endif-->
-                            </ul>
-                        </li>
-                    <#else>
-                        <li><a href="/">Login</a></li>
-                        <li><a href="/register">Register</a></li>
-                    </#if>
+                                <form id="logout-form" action="#" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                            <!--@if(Auth::user()->hasRole('manager'))-->
+                            <li>
+                                <a href="#">
+                                    Manage settings
+                                </a>
+                            </li>
+                            <!--@endif-->
+                        </ul>
+                    </li>
+                <#else>
+                    <li><a href="/">Login</a></li>
+                    <li><a href="/register" class="active">Register</a></li>
+                </#if>
 
                 </ul>
             </div>
@@ -74,10 +74,10 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Login</div>
+                    <div class="panel-heading">Register</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="/user">
-                            <!--{{ csrf_field() }}-->
+                        <form class="form-horizontal" role="form" method="POST" action="/buyerRegister">
+
 
                             <div class="form-group">
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>
@@ -89,6 +89,22 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="email" class="col-md-4 control-label">First name</label>
+
+                                <div class="col-md-6">
+                                    <input id="text" class="form-control" name="f_name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="col-md-4 control-label">Last name</label>
+
+                                <div class="col-md-6">
+                                    <input id="text" class="form-control" name="l_name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="password" class="col-md-4 control-label">Password</label>
 
                                 <div class="col-md-6">
@@ -96,10 +112,30 @@
                                 </div>
                             </div>
 
+                            <hr/>
+
+                            <div class="form-group">
+                                <label for="email" class="col-md-4 control-label">Address</label>
+
+                                <div class="col-md-6">
+                                    <input id="text" class="form-control" name="address" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="col-md-4 control-label">Street no.</label>
+
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control" name="address_no" required>
+                                </div>
+                            </div>
+
+
+
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Login
+                                        Register
                                     </button>
                                 </div>
                             </div>

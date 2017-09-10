@@ -2,6 +2,7 @@ package com.ruleshop.controllers;
 
 import com.ruleshop.model.*;
 import com.ruleshop.service.RuleService;
+import com.ruleshop.util.AllItems;
 import org.apache.tools.ant.taskdefs.condition.Http;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by milosandric on 04.07.17.
@@ -103,6 +103,11 @@ public class PageController {
 
     }
 
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registerPage() {
+        return "register";
+    }
+
     @RequestMapping(value = "/sellsettings", method = RequestMethod.GET)
     public String sellerPage(Model model, HttpSession session) {
         if(session.getAttribute("user") == null){
@@ -113,15 +118,13 @@ public class PageController {
             return "redirect:/";
         }
 
-
-
-        List<Item> itemss = this.ruleService.getAllItems();
-        for (Item i: itemss) {
-            //call drools for order
-            Item item = (Item)this.ruleService.getFillingStock(i);
+        AllItems allItems = new AllItems();
+        allItems.setProducts(this.ruleService.getAllItems());
+        this.ruleService.getFillingStock(allItems);
+        for (Item item: allItems.getProducts()) {
             this.ruleService.updateItem(item);
-            //call drools for order
         }
+
 
         List<Item> orderItems = this.ruleService.getItemsForOrder();
         model.addAttribute("orderItems", orderItems);

@@ -23,7 +23,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/">
                     Rule Shop
                 </a>
             </div>
@@ -42,7 +42,7 @@
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        ${user.first_name} <span class="caret"></span>
+                        ${user.first_name} (${user.role.role_name}) <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
@@ -143,6 +143,12 @@
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse${bill.id}">
+                                            <#if bill.state == 'uspesno_realizovan'>
+                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                            <#elseif bill.state == 'odbijen'>
+                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                            </#if>
+
                                             Bill: <b style="font-size: 18px">${bill.id}</b>
 
                                         </a>
@@ -161,12 +167,14 @@
                                         </#if>
                                     </h4>
                                 </div>
+
                                 <div id="collapse${bill.id}" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <#list bill.getBill_items() as item>
-                                            <li class="list-group-item">Item: <b style="font-size: 18px">${item.item_name}</b>
+
+                                            <li class="list-group-item">Item: <b style="font-size: 18px">${item.getItem().name}</b>
                                                 <span class="pull-right">
-                                                    <span>(${item.item_quantity}) $${item.item_price}</span>
+                                                    <span><i>${item.item_quantity}</i> x $${item.getItem().price}</span>
                                                 </span>
                                             </li>
                                         <#else>

@@ -32,7 +32,7 @@ public class BillItem {
     private Bill bill;
 
     @JsonBackReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "billItem")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "billItem")
     private Set<ItemDiscount> discounts;
 
     public int getId() {
@@ -69,13 +69,16 @@ public class BillItem {
         }
         this.discounts.add(itemDiscount);
         this.setDiscounts(this.discounts);
-        System.err.print("a");
+
     }
 
-    public void countPrice(){
-        System.err.print("kita");
+    public void countFinalPrice(){
         Double currPrice = this.getItem_quantity()*this.getItem().getPrice();
         this.final_price = currPrice - ((currPrice*this.getDiscount_percent())/100);
+    }
+
+    public void clearItemDoscounts() {
+        this.discounts.clear();
     }
 
     public int getItem_quantity() {
@@ -116,5 +119,12 @@ public class BillItem {
 
     public void setLista_primenjenih_popusta(String lista_primenjenih_popusta) {
         this.lista_primenjenih_popusta = lista_primenjenih_popusta;
+    }
+
+    @Override
+    public String toString() {
+        return "BillItem{" +
+                "discounts=" + discounts +
+                '}'+ "\n";
     }
 }

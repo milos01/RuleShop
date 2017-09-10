@@ -1,6 +1,7 @@
 package com.ruleshop.service;
 
 import com.ruleshop.model.*;
+import com.ruleshop.util.AllItems;
 
 import java.util.Date;
 import java.util.List;
@@ -67,7 +68,7 @@ public interface RuleService {
 
     void addCartItem(Cart cart);
 
-    Item getFillingStock(Item item);
+    void getFillingStock(AllItems item);
 
     BillItem getBillItemDiscounts(BillItem item);
 
@@ -81,12 +82,34 @@ public interface RuleService {
 
     void addBillDiscount(BillDiscount billDiscount);
 
-    void addBill(Bill bill);
+    Bill addBill(Bill bill);
 
     Bill getFinalDiscounts(Bill item);
 
     BillItem getItemsFinalDiscounts(BillItem item);
 
     void updateBillItem(BillItem bill_item);
+
+    Role findRole(int i);
+
+    void addUser(User user);
+
+    void addBuyer(Buyer buyer);
+
+    List<Bill> findByDateAfterAndCustomer_Id(Date date, int id);
+
+    Bill itemDiscount(Bill invoice);
+
+    void filterForBestDiscount(BillItem item);
+
+    void extraItemDiscount(BillItem item, Bill invoice);
+
+    void extraItemDiscount30(BillItem item, Bill histInvoice);
+
+    void extraItemDiscountEvents(BillItem item, Sale actionEvent);
+
+    List<Sale> findByDateEndingAfter(Date date);
+
+    void setItemDiscount(BillItem item);
 }
 

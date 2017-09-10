@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 //import org.springframework.boot.context.web.SpringBootServletInitializer;
 
 @SpringBootApplication
@@ -33,4 +34,6 @@ public class RuleshopApplication {
         kScanner.start(10_000);
         return kContainer;
     }
+
+
 }

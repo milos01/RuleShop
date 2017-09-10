@@ -132,4 +132,6 @@ public class Item {
     public void setLager_min_state(Double lager_min_state) {
         this.lager_min_state = lager_min_state;
     }
+
+
 }

@@ -23,7 +23,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/">
                     Rule Shop
                 </a>
             </div>
@@ -42,7 +42,7 @@
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        ${user.first_name} <span class="caret"></span>
+                        ${user.first_name} (${user.role.role_name}) <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">

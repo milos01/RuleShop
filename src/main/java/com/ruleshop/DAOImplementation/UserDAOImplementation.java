@@ -1,6 +1,8 @@
 package com.ruleshop.DAOImplementation;
 
 import com.ruleshop.DAO.UserDAO;
+import com.ruleshop.model.Buyer;
+import com.ruleshop.model.Role;
 import com.ruleshop.model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -30,5 +32,31 @@ public class UserDAOImplementation implements UserDAO {
         }
 
         return user;
+    }
+
+    @Override
+    public Role findRole(int i) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Role r where r.id=:id");
+        query.setParameter("id",i);
+        List<Role> roleList = query.list();
+        Role role = null;
+        for(Role a:roleList){
+            role = a;
+        }
+
+        return role;
+    }
+
+    @Override
+    public void addUser(User user) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.save(user);
+    }
+
+    @Override
+    public void addBuyer(Buyer buyer) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.persist(buyer);
     }
 }

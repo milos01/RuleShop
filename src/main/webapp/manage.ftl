@@ -23,7 +23,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/">
                     Rule Shop
                 </a>
             </div>
@@ -42,7 +42,7 @@
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        ${user.first_name} <span class="caret"></span>
+                        ${user.first_name} (${user.role.role_name}) <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
@@ -101,22 +101,22 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="pwd">Category name:</label>
-                            <input class="form-control" type="text" name="category_name">
+                            <input class="form-control" type="text" name="category_name" required>
                         </div>
                         <p>Category limits</p>
                         <hr/>
 
                         <div class="form-group">
                             <label for="pwd">Total price from:</label>
-                            <input class="form-control" type="number" name="limit_from">
+                            <input class="form-control" type="number" name="limit_from" required>
                         </div>
                         <div class="form-group">
                             <label for="pwd">Total price to:</label>
-                            <input class="form-control" type="number" name="limit_to">
+                            <input class="form-control" type="number" name="limit_to" required>
                         </div>
                         <div class="form-group">
                             <label for="pwd">Point percent:</label>
-                            <input class="form-control" type="number" name="point_percent">
+                            <input class="form-control" type="number" name="point_percent" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -140,17 +140,17 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="pwd">Code:</label>
-                            <input class="form-control" type="text" name="code">
+                            <input class="form-control" type="text" name="code" required>
                         </div>
 
                         <div class="form-group">
                             <label for="pwd">Name:</label>
-                            <input class="form-control" type="text" name="name">
+                            <input class="form-control" type="text" name="name" required>
                         </div>
 
                         <div class="form-group">
                             <label for="pwd">Max discount percent:</label>
-                            <input class="form-control" type="number" name="point_percent">
+                            <input class="form-control" type="number" name="point_percent" required>
                         </div>
                     <hr/>
                     <input type="checkbox" name="consumer_goods"> Consumer goods
@@ -176,26 +176,26 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="pwd">Code:</label>
-                            <input class="form-control" type="text" name="code">
+                            <input class="form-control" type="text" name="code" required>
                         </div>
 
                         <div class="form-group">
                             <label for="pwd">Name:</label>
-                            <input class="form-control" type="text" name="name">
+                            <input class="form-control" type="text" name="name" required>
                         </div>
 
                         <div class="form-group">
                             <label for="pwd">Sale starts at:</label>
-                            <input class="form-control" type="date" name="sale_from">
+                            <input class="form-control" type="date" name="sale_from" required>
                         </div>
 
                         <div class="form-group">
                             <label for="pwd">Sale ends at:</label>
-                            <input class="form-control" type="date" name="sale_to">
+                            <input class="form-control" type="date" name="sale_to" required>
                         </div>
                         <div class="form-group">
                             <label for="pwd">Sale discount:</label>
-                            <input class="form-control" type="number" name="point_percent">
+                            <input class="form-control" type="number" name="point_percent" required>
                         </div>
                         <div class="form-group">
                             <label for="pwd">Choose categories:</label>
@@ -203,7 +203,7 @@
                         <#list iCat as cat>
                             <#if cat.sale??>
                             <#else>
-                            <input type="checkbox" class="coding" name="categories" value="${cat.id}">
+                            <input type="checkbox" class="coding" name="categories" value="${cat.id}" >
                             <label for="coding">${cat.name}</label>
                             </#if>
                         </#list>
@@ -241,19 +241,19 @@
                                                     <h4 class="modal-title">New limit for ${cat.category_name} category</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input class="form-control" type="hidden" name="category_id" value="${cat.id}">
+                                                    <input class="form-control" type="hidden" name="category_id" value="${cat.id}" required>
 
                                                     <div class="form-group">
                                                         <label for="pwd">Total price from:</label>
-                                                        <input class="form-control" type="number" name="limit_from">
+                                                        <input class="form-control" type="number" name="limit_from" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="pwd">Total price to:</label>
-                                                        <input class="form-control" type="number" name="limit_to">
+                                                        <input class="form-control" type="number" name="limit_to" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="pwd">Point percent:</label>
-                                                        <input class="form-control" type="number" name="point_percent">
+                                                        <input class="form-control" type="number" name="point_percent" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -277,11 +277,11 @@
                                                     <h4 class="modal-title">New limit for ${cat.category_name} category</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input class="form-control" type="hidden" name="category_id" value="${cat.id}">
+                                                    <input class="form-control" type="hidden" name="category_id" value="${cat.id}" required>
 
                                                     <div class="form-group">
                                                         <label for="pwd">Category name:</label>
-                                                        <input class="form-control" type="text" name="category_name" value="${cat.category_name}">
+                                                        <input class="form-control" type="text" name="category_name" value="${cat.category_name}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -310,19 +310,19 @@
                                                     <h4 class="modal-title">New user category</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input class="form-control" type="hidden" name="limit_id" value="${limit.id}">
+                                                    <input class="form-control" type="hidden" name="limit_id" value="${limit.id}" required>
                                                     <div class="form-group">
                                                         <label for="pwd">Total price from:</label>
 
-                                                        <input class="form-control" type="number" name="limit_from" placeholder="${limit.limit_from}">
+                                                        <input class="form-control" type="number" name="limit_from" value="${limit.limit_from}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="pwd">Total price to:</label>
-                                                        <input class="form-control" type="number" name="limit_to" placeholder="${limit.limit_to}">
+                                                        <input class="form-control" type="number" name="limit_to" value="${limit.limit_to}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="pwd">Point percent:</label>
-                                                        <input class="form-control" type="number" name="point_percent" value="${limit.point_percent}">
+                                                        <input class="form-control" type="number" name="point_percent" value="${limit.point_percent}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -374,7 +374,7 @@
                                                 <h4 class="modal-title">Update "${cat.name}" category</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <input class="form-control" type="hidden" name="category_id" value="${cat.id}">
+                                                <input class="form-control" type="hidden" name="category_id" value="${cat.id}" required>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Code:</label>
@@ -383,12 +383,12 @@
 
                                                 <div class="form-group">
                                                     <label for="pwd">Name:</label>
-                                                    <input class="form-control" type="text" name="name" value="${cat.name}">
+                                                    <input class="form-control" type="text" name="name" value="${cat.name}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Max discount percent:</label>
-                                                    <input class="form-control" type="number" name="point_percent" value="${cat.max_discount_percent}">
+                                                    <input class="form-control" type="number" name="point_percent" value="${cat.max_discount_percent}" required>
                                                 </div>
                                                 <hr/>
                                                 <#if cat.hasGlobaItemCat == true>
@@ -442,7 +442,7 @@
                                                 <h4 class="modal-title">Update "${cat.name}" sale</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <input class="form-control" type="hidden" name="category_id" value="${cat.id}">
+                                                <input class="form-control" type="hidden" name="category_id" value="${cat.id}" required>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Code:</label>
@@ -451,21 +451,21 @@
 
                                                 <div class="form-group">
                                                     <label for="pwd">Name:</label>
-                                                    <input class="form-control" type="text" name="name" value="${cat.name}">
+                                                    <input class="form-control" type="text" name="name" value="${cat.name}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Sale starts at:</label>
-                                                    <input class="form-control" type="date" name="sale_from" value="${cat.sale_from?datetime?string('yyyy-MM-dd')}">
+                                                    <input class="form-control" type="date" name="sale_from" value="${cat.sale_from?datetime?string('yyyy-MM-dd')}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Sale ends at:</label>
-                                                    <input class="form-control" type="date" name="sale_to" value="${cat.sale_to?datetime?string('yyyy-MM-dd')}">
+                                                    <input class="form-control" type="date" name="sale_to" value="${cat.sale_to?datetime?string('yyyy-MM-dd')}" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="pwd">Sale discount:</label>
-                                                    <input class="form-control" type="number" name="point_percent" value="${cat.discount_percent}">
+                                                    <input class="form-control" type="number" name="point_percent" value="${cat.discount_percent}" required>
                                                 </div>
                                                 <#list iCat as item>
                                                     <#if item.sale??>
