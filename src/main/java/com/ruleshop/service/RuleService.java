@@ -10,9 +10,9 @@ import java.util.List;
  * Created by milosandric on 05.07.17.
  */
 public interface RuleService {
-    public User findUser(String email);
+    User findUser(String email);
 
-    public List<BuyerCategory> getAllBCategories();
+    List<BuyerCategory> getAllBCategories();
 
     void addCategory(BuyerCategory category_name);
 
@@ -111,5 +111,13 @@ public interface RuleService {
     List<Sale> findByDateEndingAfter(Date date);
 
     void setItemDiscount(BillItem item);
+
+    Bill generalDiscount(Bill invoice);
+
+    Bill finalDiscount(Bill bill);
+
+    Buyer addBonusPoints(Bill bill);
+
+    void updateBuyer(Buyer buyer);
 }
 

@@ -99,78 +99,49 @@
                         <ul class="list-group">
                         <#list bills as bill>
                             <#if bill.buyer.id == user.buyer.id>
-                        <#--Add limit modal-->
-                        <#--<div class="modal fade orderItem${item.id}" role="dialog">-->
-                        <#--<div class="modal-dialog">-->
+                                <!-- End limit modal -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion"
+                                               href="#collapse${bill.id}">
+                                                Bill: <b style="font-size: 18px">${bill.id}</b>
+                                                <span class="pull-right">Successfully receved</span>
+                                            </a>
+                                            <#if bill.state == "porucen">
+                                                <form action="/submitOrder" method="POST">
+                                                    <input type="hidden" name="bill_id" style="margin-top: -15px"
+                                                           value="${bill.id}">
+                                                    <button class="btn btn-danger btn-xs pull-right" type="submit"
+                                                            style="margin-top: -20px; margin-left: 10px">reject
+                                                    </button>
 
-                        <#--<!-- Modal content&ndash;&gt;-->
-                        <#--<div class="modal-content">-->
-                        <#--<form method="POST" action="/orderItem">-->
-                        <#--<div class="modal-header">-->
-                        <#--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                        <#--<h4 class="modal-title">Order for "${item.name}" item</h4>-->
-                        <#--</div>-->
-                        <#--<div class="modal-body">-->
-                        <#--<input class="form-control" type="hidden" name="item_id" value="${item.id}">-->
+                                                </form>
+                                                <form action="/submitOrder" method="POST">
+                                                    <input type="hidden" name="bill_id" style="margin-top: -15px"
+                                                           value="${bill.id}">
+                                                    <button class="btn btn-default btn-xs pull-right" type="submit"
+                                                            style="margin-top: -20px">submit order
+                                                    </button>
 
-                        <#--<div class="form-group">-->
-                        <#--<label for="pwd">Quantity</label>-->
-                        <#--<input class="form-control" type="number" name="item_quantity">-->
-                        <#--</div>-->
+                                                </form>
 
-                        <#--</div>-->
-                        <#--<div class="modal-footer">-->
-                        <#--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                        <#--<button type="submit" class="btn btn-primary">Order</button>-->
-                        <#--</div>-->
-                        <#--</form>-->
-                        <#--</div>-->
-                        <#--</div>-->
-                        <#--</div>-->
-                            <!-- End limit modal -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse${bill.id}">
-                                            Bill: <b style="font-size: 18px">${bill.id}</b>
-                                            <span class="pull-right">Successfully receved</span>
-                                        </a>
-                                        <#if bill.state == "porucen">
-                                            <form action="/submitOrder" method="POST">
-                                                <input type="hidden" name="bill_id" style="margin-top: -15px" value="${bill.id}">
-                                                <button class="btn btn-danger btn-xs pull-right" type="submit" style="margin-top: -20px; margin-left: 10px">reject</button>
-
-                                            </form>
-                                            <form action="/submitOrder" method="POST">
-                                                <input type="hidden" name="bill_id" style="margin-top: -15px" value="${bill.id}">
-                                                <button class="btn btn-default btn-xs pull-right" type="submit" style="margin-top: -20px">submit order</button>
-
-                                            </form>
-
-                                        </#if>
-                                    </h4>
-                                </div>
-                                <div id="collapse${bill.id}" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <#list bill.getBill_items() as item>
-                                            <li class="list-group-item">Item: <b style="font-size: 18px">${item.item_name}</b>
-                                                <span class="pull-right">
+                                            </#if>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse${bill.id}" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <#list bill.getBill_items() as item>
+                                                <li class="list-group-item">Item: <b
+                                                        style="font-size: 18px">${item.item_name}</b>
+                                                    <span class="pull-right">
                                                     <span>(${item.item_quantity}) $${item.item_price}</span>
                                                 </span>
-                                            </li>
-                                        </#list>
+                                                </li>
+                                            </#list>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        <#--<li class="list-group-item">Bill: <b style="font-size: 18px">${bill.id}</b>-->
-
-                        <#--<#if bill.state == "porucen">-->
-                        <#--<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem" style="margin-left: 10px">Submit order</button>-->
-                        <#--</#if>-->
-                        <#--&lt;#&ndash;<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem${item.id}" style="margin-left: 10px">order this item</button>&ndash;&gt;-->
-                        <#--&lt;#&ndash;<span class="pull-right">Items left in shop: <b>${item.number_left}</b>/ Minimum number on lager: <b>${item.lager_min_state}</b></span>&ndash;&gt;-->
-                        <#--&lt;#&ndash;<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".renameCatetoryModal${cat.id}" style="margin-right: 10px">rename</button>&ndash;&gt;-->
-                        <#--</li>-->
                             </#if>
                         <#else>
                             No items for order found!

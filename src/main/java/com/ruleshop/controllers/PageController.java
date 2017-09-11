@@ -22,20 +22,22 @@ public class PageController {
 
     @Autowired
     private RuleService ruleService;
+
     /**
      * This method will redirect user on index.ftl, otherwise will respond with 404 error response.
+     *
      * @return index.ftl
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, HttpSession session) {
 
-        if(session.getAttribute("user") != null){
-            User user = (User)session.getAttribute("user");
+        if (session.getAttribute("user") != null) {
+            User user = (User) session.getAttribute("user");
             if (user.getRole().getRole_name().equals("buyer")) {
                 return "redirect:/home?searchCode=all&searchName=all&category=all&price_from=0&price_to=0";
-            }else if(user.getRole().getRole_name().equals("manager")){
+            } else if (user.getRole().getRole_name().equals("manager")) {
                 return "redirect:/manage";
-            }else if(user.getRole().getRole_name().equals("seller")){
+            } else if (user.getRole().getRole_name().equals("seller")) {
                 return "redirect:/sellsettings";
             }
             return "redirect:/home";
@@ -47,27 +49,27 @@ public class PageController {
 
     /**
      * This method will redirect user on index.ftl, otherwise will respond with 404 error response.
+     *
      * @return index.ftl
      */
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String home(@RequestParam(value="searchCode") String searchCode,
-                       @RequestParam(value="searchName") String searchName,
-                       @RequestParam(value="category") String category,
-                       @RequestParam(value="price_from") Double price_from,
-                       @RequestParam(value="price_to") Double price_to, Model model, HttpSession session) {
-        if(session.getAttribute("user") == null){
+    public String home(@RequestParam(value = "searchCode") String searchCode,
+                       @RequestParam(value = "searchName") String searchName,
+                       @RequestParam(value = "category") String category,
+                       @RequestParam(value = "price_from") Double price_from,
+                       @RequestParam(value = "price_to") Double price_to, Model model, HttpSession session) {
+        if (session.getAttribute("user") == null) {
             return "redirect:/";
         }
-        User user = (User)session.getAttribute("user");
-        if(user.getRole().getRole_name().equals("buyer")){
-            if(!searchCode.equals("all") && !searchName.equals("all") && !category.equals("") && price_from != 0 && price_to != 0){
+        User user = (User) session.getAttribute("user");
+        if (user.getRole().getRole_name().equals("buyer")) {
+            if (!searchCode.equals("all") && !searchName.equals("all") && !category.equals("") && price_from != 0 && price_to != 0) {
                 List<Item> categories = this.ruleService.getAllSICategories(searchCode, searchName, category, price_from, price_to);
                 model.addAttribute("items", categories);
-            }else{
+            } else {
                 List<Item> items = this.ruleService.getAllItems();
                 model.addAttribute("items", items);
             }
-
 
 
         }
@@ -85,11 +87,11 @@ public class PageController {
 
     @RequestMapping(value = "/manage", method = RequestMethod.GET)
     public String manage(Model model, HttpSession session) {
-        if(session.getAttribute("user") == null){
+        if (session.getAttribute("user") == null) {
             return "redirect:/";
         }
-        User u = (User)session.getAttribute("user");
-        if(!u.getRole().getRole_name().equals("manager")){
+        User u = (User) session.getAttribute("user");
+        if (!u.getRole().getRole_name().equals("manager")) {
             return "redirect:/";
         }
 
@@ -110,18 +112,18 @@ public class PageController {
 
     @RequestMapping(value = "/sellsettings", method = RequestMethod.GET)
     public String sellerPage(Model model, HttpSession session) {
-        if(session.getAttribute("user") == null){
+        if (session.getAttribute("user") == null) {
             return "redirect:/";
         }
-        User u = (User)session.getAttribute("user");
-        if(!u.getRole().getRole_name().equals("seller")){
+        User u = (User) session.getAttribute("user");
+        if (!u.getRole().getRole_name().equals("seller")) {
             return "redirect:/";
         }
 
         AllItems allItems = new AllItems();
         allItems.setProducts(this.ruleService.getAllItems());
         this.ruleService.getFillingStock(allItems);
-        for (Item item: allItems.getProducts()) {
+        for (Item item : allItems.getProducts()) {
             this.ruleService.updateItem(item);
         }
 
@@ -133,36 +135,35 @@ public class PageController {
     }
 
     @RequestMapping(value = "/billingsettings", method = RequestMethod.GET)
-    public String billingPage(@RequestParam(value="filter") String filter, Model model, HttpSession session) {
-        if(session.getAttribute("user") == null){
+    public String billingPage(@RequestParam(value = "filter") String filter, Model model, HttpSession session) {
+        if (session.getAttribute("user") == null) {
             return "redirect:/";
         }
         List<Bill> bills = null;
-        if(filter.equals("all")) {
+        if (filter.equals("all")) {
             bills = this.ruleService.getAllBills();
             model.addAttribute("bills", bills);
             return "bill";
-        }else if (filter.equals("ordered")){
+        } else if (filter.equals("ordered")) {
             bills = this.ruleService.getOrderedBills();
             model.addAttribute("bills", bills);
             return "bill";
-        }else if (filter.equals("successfully_receved")){
+        } else if (filter.equals("successfully_receved")) {
             bills = this.ruleService.getSuccessBills();
             model.addAttribute("bills", bills);
             return "bill";
-        }else if (filter.equals("rejected")){
+        } else if (filter.equals("rejected")) {
             bills = this.ruleService.getRejectedBills();
             model.addAttribute("bills", bills);
             return "bill";
         }
-//        model.addAttribute("bills", bills);
         return "redirect:/home";
 
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String userProfile(Model model, HttpSession session) {
-        if(session.getAttribute("user") == null){
+        if (session.getAttribute("user") == null) {
             return "redirect:/";
         }
 
@@ -172,7 +173,7 @@ public class PageController {
 
     @RequestMapping(value = "/mybills", method = RequestMethod.GET)
     public String myBils(Model model, HttpSession session) {
-        if(session.getAttribute("user") == null){
+        if (session.getAttribute("user") == null) {
             return "redirect:/";
         }
 
@@ -181,26 +182,18 @@ public class PageController {
         return "mybills";
     }
 
-//    @RequestMapping(value = "/item", method = RequestMethod.GET, produces = "application/json")
-//    public String getQuestions(@RequestParam(required = true) String id, @RequestParam(required = true) String name, @RequestParam(required = true) double cost, @RequestParam(required = true) double salePrice) {
-//
-//        ItemTest newItem = new ItemTest(Long.parseLong(id), name, cost, salePrice);
-//
-////        log.debug("Item request received for: " + newItem);
-//
-//        ItemTest i2 = this.ruleService.getClassifiedItem(newItem);
-//        System.err.print(i2);
-//        return "/";
-//    }
-
     @RequestMapping(value = "/cart", method = RequestMethod.GET)
-    public String cartPage(HttpSession session, Model model){
-        if(session.getAttribute("user") == null){
+    public String cartPage(HttpSession session, Model model) {
+        if (session.getAttribute("user") == null) {
             return "redirect:/";
         }
-        User user = (User)session.getAttribute("user");
+
+
+        User user = (User) session.getAttribute("user");
         List<Cart> cart_items = this.ruleService.getUserCartItems(user.getId());
+        List<Bill> bills = this.ruleService.getOrderedBills();
         model.addAttribute("cart_items", cart_items);
+        model.addAttribute("billss", bills);
         return "cart";
     }
 }

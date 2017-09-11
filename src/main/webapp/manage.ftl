@@ -152,8 +152,8 @@
                             <label for="pwd">Max discount percent:</label>
                             <input class="form-control" type="number" name="point_percent" required>
                         </div>
-                    <hr/>
-                    <input type="checkbox" name="consumer_goods"> Consumer goods
+                        <hr/>
+                        <input type="checkbox" name="consumer_goods"> Consumer goods
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -200,13 +200,13 @@
                         <div class="form-group">
                             <label for="pwd">Choose categories:</label>
                         </div>
-                        <#list iCat as cat>
-                            <#if cat.sale??>
-                            <#else>
-                            <input type="checkbox" class="coding" name="categories" value="${cat.id}" >
+                    <#list iCat as cat>
+                        <#if cat.sale??>
+                        <#else>
+                            <input type="checkbox" class="coding" name="categories" value="${cat.id}">
                             <label for="coding">${cat.name}</label>
-                            </#if>
-                        </#list>
+                        </#if>
+                    </#list>
 
                     </div>
                     <div class="modal-footer">
@@ -223,140 +223,168 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">Manage buyer categories
-                        <button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target=".newCategoryModal">Add category</button>
+                        <button class="btn btn-primary btn-xs pull-right" data-toggle="modal"
+                                data-target=".newCategoryModal">Add category
+                        </button>
                     </div>
 
                     <div class="panel-body">
                         <ul class="list-group">
-                            <#list bCat as cat>
-                                <#--Add limit modal-->
-                                <div class="modal fade newLimitModal${cat.id}" role="dialog">
-                                    <div class="modal-dialog">
+                        <#list bCat as cat>
+                        <#--Add limit modal-->
+                            <div class="modal fade newLimitModal${cat.id}" role="dialog">
+                                <div class="modal-dialog">
 
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <form method="POST" action="/addLimit">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    <h4 class="modal-title">New limit for ${cat.category_name} category</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input class="form-control" type="hidden" name="category_id" value="${cat.id}" required>
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <form method="POST" action="/addLimit">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;
+                                                </button>
+                                                <h4 class="modal-title">New limit for ${cat.category_name} category</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input class="form-control" type="hidden" name="category_id"
+                                                       value="${cat.id}" required>
 
-                                                    <div class="form-group">
-                                                        <label for="pwd">Total price from:</label>
-                                                        <input class="form-control" type="number" name="limit_from" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="pwd">Total price to:</label>
-                                                        <input class="form-control" type="number" name="limit_to" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="pwd">Point percent:</label>
-                                                        <input class="form-control" type="number" name="point_percent" required>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label for="pwd">Total price from:</label>
+                                                    <input class="form-control" type="number" name="limit_from"
+                                                           required>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Add</button>
+                                                <div class="form-group">
+                                                    <label for="pwd">Total price to:</label>
+                                                    <input class="form-control" type="number" name="limit_to" required>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="form-group">
+                                                    <label for="pwd">Point percent:</label>
+                                                    <input class="form-control" type="number" name="point_percent"
+                                                           required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Add</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
-                                <!-- End limit modal -->
-                                <#--Rename category modal-->
-                                <div class="modal fade renameCatetoryModal${cat.id}" role="dialog">
-                                    <div class="modal-dialog">
+                            </div>
+                            <!-- End limit modal -->
+                        <#--Rename category modal-->
+                            <div class="modal fade renameCatetoryModal${cat.id}" role="dialog">
+                                <div class="modal-dialog">
 
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <form method="POST" action="/renameCategory">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    <h4 class="modal-title">New limit for ${cat.category_name} category</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input class="form-control" type="hidden" name="category_id" value="${cat.id}" required>
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <form method="POST" action="/renameCategory">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;
+                                                </button>
+                                                <h4 class="modal-title">New limit for ${cat.category_name} category</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input class="form-control" type="hidden" name="category_id"
+                                                       value="${cat.id}" required>
 
-                                                    <div class="form-group">
-                                                        <label for="pwd">Category name:</label>
-                                                        <input class="form-control" type="text" name="category_name" value="${cat.category_name}" required>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label for="pwd">Category name:</label>
+                                                    <input class="form-control" type="text" name="category_name"
+                                                           value="${cat.category_name}" required>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Rename</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Rename</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
-                                <!-- End rename category modal -->
-                                <li class="list-group-item">Category: <b style="font-size: 18px">${cat.category_name}</b>
-                                    <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".newLimitModal${cat.id}">add limit</button>
-                                    <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".renameCatetoryModal${cat.id}" style="margin-right: 10px">rename</button>
-                                </li>
-                                <#list cat.getLimits() as limit>
-                                    <!-- New category modal -->
-                                    <!-- Modal -->
-                                    <div class="modal fade newCategoryModal${limit.id}" role="dialog">
-                                        <div class="modal-dialog">
+                            </div>
+                            <!-- End rename category modal -->
+                            <li class="list-group-item">Category: <b style="font-size: 18px">${cat.category_name}</b>
+                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal"
+                                        data-target=".newLimitModal${cat.id}">add limit
+                                </button>
+                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal"
+                                        data-target=".renameCatetoryModal${cat.id}" style="margin-right: 10px">rename
+                                </button>
+                            </li>
+                            <#list cat.getLimits() as limit>
+                                <!-- New category modal -->
+                                <!-- Modal -->
+                                <div class="modal fade newCategoryModal${limit.id}" role="dialog">
+                                    <div class="modal-dialog">
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <form method="POST" action="/updateLimit">
                                                 <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
                                                     <h4 class="modal-title">New user category</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input class="form-control" type="hidden" name="limit_id" value="${limit.id}" required>
+                                                    <input class="form-control" type="hidden" name="limit_id"
+                                                           value="${limit.id}" required>
                                                     <div class="form-group">
                                                         <label for="pwd">Total price from:</label>
 
-                                                        <input class="form-control" type="number" name="limit_from" value="${limit.limit_from}" required>
+                                                        <input class="form-control" type="number" name="limit_from"
+                                                               value="${limit.limit_from}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="pwd">Total price to:</label>
-                                                        <input class="form-control" type="number" name="limit_to" value="${limit.limit_to}" required>
+                                                        <input class="form-control" type="number" name="limit_to"
+                                                               value="${limit.limit_to}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="pwd">Point percent:</label>
-                                                        <input class="form-control" type="number" name="point_percent" value="${limit.point_percent}" required>
+                                                        <input class="form-control" type="number" name="point_percent"
+                                                               value="${limit.point_percent}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Close
+                                                    </button>
                                                     <button type="submit" class="btn btn-primary">Update</button>
                                                 </div>
                                             </form>
                                         </div>
-                                        </div>
                                     </div>
-                                    <!-- End category modal -->
-                                    <div class="list-group">
+                                </div>
+                                <!-- End category modal -->
+                                <div class="list-group">
                                     <a href="#" class="list-group-item list-group-item-action list-group-item-warning">
-                                    From: ${limit.limit_from} / To: ${limit.limit_to}
-                                    <span class="pull-right">${limit.point_percent}%
-                                    <button class="btn btn-default btn-xs pull-right" style="margin-left: 10px" data-toggle="modal" data-target=".newCategoryModal${limit.id}"></span>edit</button>
-                                    </span>
+                                        From: ${limit.limit_from} / To: ${limit.limit_to}
+                                        <span class="pull-right">${limit.point_percent}%
+                                    <button class="btn btn-default btn-xs pull-right" style="margin-left: 10px"
+                                            data-toggle="modal"
+                                            data-target=".newCategoryModal${limit.id}"></span>edit</button>
+                                        </span>
                                     </a>
-                                    </div>
+                                </div>
                             </#list>
-                            <#else>
-                                No categories found!
-                            </#list>
+                        <#else>
+                            No categories found!
+                        </#list>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <#--Category manage-->
+    <#--Category manage-->
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">Manage item categories
-                        <button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target=".newItemCategoryModal">Add item category</button>
+                        <button class="btn btn-primary btn-xs pull-right" data-toggle="modal"
+                                data-target=".newItemCategoryModal">Add item category
+                        </button>
                     </div>
 
                     <div class="panel-body">
@@ -370,35 +398,42 @@
                                     <div class="modal-content">
                                         <form method="POST" action="/updateItemCategory">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <button type="button" class="close" data-dismiss="modal">&times;
+                                                </button>
                                                 <h4 class="modal-title">Update "${cat.name}" category</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <input class="form-control" type="hidden" name="category_id" value="${cat.id}" required>
+                                                <input class="form-control" type="hidden" name="category_id"
+                                                       value="${cat.id}" required>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Code:</label>
-                                                    <input class="form-control" type="text" name="code" value="${cat.code}" disabled>
+                                                    <input class="form-control" type="text" name="code"
+                                                           value="${cat.code}" disabled>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Name:</label>
-                                                    <input class="form-control" type="text" name="name" value="${cat.name}" required>
+                                                    <input class="form-control" type="text" name="name"
+                                                           value="${cat.name}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Max discount percent:</label>
-                                                    <input class="form-control" type="number" name="point_percent" value="${cat.max_discount_percent}" required>
+                                                    <input class="form-control" type="number" name="point_percent"
+                                                           value="${cat.max_discount_percent}" required>
                                                 </div>
                                                 <hr/>
                                                 <#if cat.hasGlobaItemCat == true>
-                                                <input type="checkbox" name="consumer_goods" checked> Consumer goods
+                                                    <input type="checkbox" name="consumer_goods" checked> Consumer goods
                                                 <#else>
                                                     <input type="checkbox" name="consumer_goods"> Consumer goods
                                                 </#if>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Close
+                                                </button>
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </div>
                                         </form>
@@ -409,7 +444,9 @@
                             <!-- End rename category modal -->
                             <li class="list-group-item">Category: <b style="font-size: 18px">${cat.name}</b>
                                 <span class="pull-right" style="margin-right: 10px;">${cat.max_discount_percent}%
-                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".updateItemCategory${cat.id}" style="margin-left: 10px">Update</button>
+                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal"
+                                        data-target=".updateItemCategory${cat.id}"
+                                        style="margin-left: 10px">Update</button>
                             </li>
                         <#else>
                             No categories found!
@@ -419,12 +456,14 @@
                 </div>
             </div>
         </div>
-        <#--Sales manage-->
+    <#--Sales manage-->
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">Manage sales
-                        <button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target=".newSaleModal">Add new sale</button>
+                        <button class="btn btn-primary btn-xs pull-right" data-toggle="modal"
+                                data-target=".newSaleModal">Add new sale
+                        </button>
                     </div>
 
                     <div class="panel-body">
@@ -438,50 +477,63 @@
                                     <div class="modal-content">
                                         <form method="POST" action="/updateSale">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <button type="button" class="close" data-dismiss="modal">&times;
+                                                </button>
                                                 <h4 class="modal-title">Update "${cat.name}" sale</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <input class="form-control" type="hidden" name="category_id" value="${cat.id}" required>
+                                                <input class="form-control" type="hidden" name="category_id"
+                                                       value="${cat.id}" required>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Code:</label>
-                                                    <input class="form-control" type="text" name="code" value="${cat.code}" disabled>
+                                                    <input class="form-control" type="text" name="code"
+                                                           value="${cat.code}" disabled>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Name:</label>
-                                                    <input class="form-control" type="text" name="name" value="${cat.name}" required>
+                                                    <input class="form-control" type="text" name="name"
+                                                           value="${cat.name}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Sale starts at:</label>
-                                                    <input class="form-control" type="date" name="sale_from" value="${cat.sale_from?datetime?string('yyyy-MM-dd')}" required>
+                                                    <input class="form-control" type="date" name="sale_from"
+                                                           value="${cat.sale_from?datetime?string('yyyy-MM-dd')}"
+                                                           required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="pwd">Sale ends at:</label>
-                                                    <input class="form-control" type="date" name="sale_to" value="${cat.sale_to?datetime?string('yyyy-MM-dd')}" required>
+                                                    <input class="form-control" type="date" name="sale_to"
+                                                           value="${cat.sale_to?datetime?string('yyyy-MM-dd')}"
+                                                           required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="pwd">Sale discount:</label>
-                                                    <input class="form-control" type="number" name="point_percent" value="${cat.discount_percent}" required>
+                                                    <input class="form-control" type="number" name="point_percent"
+                                                           value="${cat.discount_percent}" required>
                                                 </div>
                                                 <#list iCat as item>
                                                     <#if item.sale??>
                                                         <#if item.sale.id == cat.id>
-                                                            <input type="checkbox" class="coding" name="categories" value="${item.id}" checked>
+                                                            <input type="checkbox" class="coding" name="categories"
+                                                                   value="${item.id}" checked>
                                                             <label for="coding">${item.name}</label>
                                                         </#if>
                                                     <#else>
 
-                                                    <input type="checkbox" class="coding" name="categories" value="${item.id}">
-                                                    <label for="coding">${item.name}</label>
+                                                        <input type="checkbox" class="coding" name="categories"
+                                                               value="${item.id}">
+                                                        <label for="coding">${item.name}</label>
                                                     </#if>
                                                 </#list>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Close
+                                                </button>
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </div>
                                         </form>
@@ -490,8 +542,11 @@
                             </div>
                             <!-- End limit modal -->
                             <!-- End rename category modal -->
-                            <li class="list-group-item">Sale: <b style="font-size: 18px">${cat.name}</b> (${cat.discount_percent}%)
-                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".updateSale${cat.id}" style="margin-left: 10px">Update</button>
+                            <li class="list-group-item">Sale: <b style="font-size: 18px">${cat.name}</b>
+                                (${cat.discount_percent}%)
+                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal"
+                                        data-target=".updateSale${cat.id}" style="margin-left: 10px">Update
+                                </button>
                                 <span class="pull-right">From: ${cat.sale_from} / To: ${cat.sale_to}</span>
                             <#--<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".newLimitModal${cat.id}">add limit</button>-->
 

@@ -93,10 +93,50 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
+                    <div class="panel-heading">Bill
+                    </div>
+
+                    <div class="panel-body">
+
+                        <ul class="list-group">
+                            <ul class="list-group">
+                            <#list billss as bill>
+                                <ul class="list-group">
+                                    <div class="container">Original price: ${bill.origina_price}</div>
+                                    <div class="container">Discount: ${bill.discount_percent}%</div>
+                                    <div class="container">Final price: ${bill.final_price}</div>
+                                    <div class="container">Gained points: ${bill.ganed_points}</div>
+                                </ul>
+                                <hr>
+                                <#list bill.discounts as bill_d>
+                                    <ul class="list-group">
+                                        <div class="container"><i>Bill discount: ${bill_d.discount_percent} / ${bill_d.dt}</i></div>
+                                    </ul>
+                                </#list>
+                                <hr>
+                                <#list bill.bill_items as items>
+                                    <#list items.discounts as items_d>
+                                        <ul class="list-group">
+                                            <div class="container"><i>Item discount: ${items_d.discount_percent} / ${items_d.dt}</i></div>
+                                        </ul>
+                                    </#list>
+                                </#list>
+                            <#else>
+                                No bill found!
+                            </#list>
+                            </ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
                     <div class="panel-heading">My cart
                     </div>
 
                     <div class="panel-body">
+
                         <ul class="list-group">
                             <ul class="list-group">
                                 <#list cart_items as citem>

@@ -306,9 +306,9 @@ public class CategoryController {
         bill.setState("porucen");
         bill.setBuyer(user.getBuyer());
         bill.setFinal_price(0.0);
+        Set<BillDiscount> discounts = new HashSet<>();
+        bill.setDiscounts(discounts);
 
-
-//        this.ruleService.addBill(bill);
         Set<BillItem> bi = new HashSet<BillItem>();
         for (Cart item : cart_items) {
             BillItem bill_item = new BillItem();
@@ -318,29 +318,10 @@ public class CategoryController {
             bill_item.setItem(item.getItem());
             bill_item.setFinal_price(0.0);
             bill_item.setDiscounts(discountss);
-//            //drools for bill item discounts
-//            this.ruleService.getBillItemDiscounts(bill_item);
-//            this.ruleService.addBillItem(bill_item);
-//            Set<ItemDiscount> itemDiscounts = bill_item.getDiscounts();
-////
-//            if (itemDiscounts != null){
-//                for (ItemDiscount id: itemDiscounts) {
-//                    this.ruleService.addItemDiscount(id);
-//                }
-//            }
-//
-//            this.ruleService.getItemsFinalDiscounts(bill_item);
-//            this.ruleService.updateBillItem(bill_item);
-//
-//
             bi.add(bill_item);
-
-//
         }
         bill.setBill_items(bi);
 
-
-//        this.ruleService.getBillDiscounts(bill);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -15);
         Calendar calendar2 = Calendar.getInstance();
@@ -351,106 +332,19 @@ public class CategoryController {
         extraItemDiscount2(bill, calendar2.getTime());
         extraItemDiscountEvents(bill);
         finalItemDiscount(bill);
+        this.ruleService.generalDiscount(bill);
+        this.ruleService.finalDiscount(bill);
+        this.ruleService.updateBuyer(this.ruleService.addBonusPoints(bill));
         ruleService.addBill(bill);
-
-
-//
-//////        System.err.print(newBill.getBill_items());
-//        for (BillItem bitem: newBill.getBill_items()) {
-//            this.ruleService.updateBillItem(bitem);
-//
-//        }
-//        for (BillItem bitem : bill.getBill_items()) {
-//            ruleService.updateBillItem(bitem);
-//            for (ItemDiscount disc: bitem.getDiscounts()) {
-//                this.ruleService.addItemDiscount(disc);
-//            }
-//
-//        }
-//        this.ruleService.updateBill(bill);
-//
-//        this.ruleService.getBillDiscounts(bill);
-//
-//
-//        Set<BillDiscount> itemDiscounts = bill.getDiscounts();
-//
-//        if (itemDiscounts != null){
-//            for (BillDiscount billDiscount: itemDiscounts) {
-//                this.ruleService.addBillDiscount(billDiscount);
-//            }
-//        }
-
-        //final price and all for bill
-//        this.ruleService.getFinalDiscounts(bill);
-//        this.ruleService.updateBill(bill);
-
-
-//        //Bill item rules
-//        for (Cart item: cart_items) {
-//            BillItem bill_item = new BillItem();
-//            bill_item.setBill(this.ruleService.findBill(1));
-//            bill_item.setItem_quantity(item.getQuantity());
-//            bill_item.setItem(item.getItem());
-////            bill_item.setDiscounts();
-//            //drools for bill item discounts
-//            this.ruleService.getBillItemDiscounts(bill_item);
-//            this.ruleService.addBillItem(bill_item);
-//
-//
-//            Set<ItemDiscount> itemDiscounts = bill_item.getDiscounts();
-//
-//            if (itemDiscounts != null){
-////                Double tmp = 0.0;
-//                Map<ItemDiscount, Double> itemMap = new HashMap<ItemDiscount, Double>();
-////                int tmpId = 1;
-//                for (ItemDiscount id: itemDiscounts) {
-//                    //best discount form all discounts
-//                    int it_q = id.getBillItem().getItem_quantity();
-//                    Double it_p = id.getBillItem().getItem().getPrice();
-//                    Double disc = ((it_q * it_p) * id.getDiscount_percent())/100;
-//                    System.err.print(disc);
-//                    itemMap.put(id, disc);
-////                    this.ruleService.addItemDiscount(id);
-////                    tmp = 0.0;
-////                    tmpId++;
-//                }
-//                Double i = 0.0;
-//                for(ItemDiscount key: itemMap.keySet()){
-//                    if (itemMap.get(key) > i){
-//                        i = itemMap.get(key);
-//                    }
-//
-//                }
-//                for(ItemDiscount key: itemMap.keySet()){
-//                    if (itemMap.get(key) == i){
-//                        this.ruleService.addItemDiscount(key);
-//                    }
-//
-//                }
-//
-////                System.out.println(key + " - " + vehicles.get(key));
-//
-//            }
-//            System.err.print("<-"+itemDiscounts);
-////            this.ruleService.addBillItem(bill_item);
-//            while (itemDiscounts.iterator().hasNext()){
-//                System.err.print(itemDiscounts.iterator().next());
-//            }
-
-
-//
-
-
-//        }
 
         return "redirect:/cart";
 
     }
-    public Bill basicItemDiscount(Bill item){
+
+    public Bill basicItemDiscount(Bill item) {
 
         this.ruleService.itemDiscount(item);
 
-        // call rules for best basic discount
         for (BillItem bitem : item.getBill_items()) {
             this.ruleService.filterForBestDiscount(bitem);
         }
@@ -496,11 +390,12 @@ public class CategoryController {
         return invoice;
     }
 
-    private Bill finalItemDiscount(Bill invoice){
+    private Bill finalItemDiscount(Bill invoice) {
         for (BillItem item : invoice.getBill_items()) {
             this.ruleService.setItemDiscount(item);
         }
         return invoice;
     }
+
 
 }

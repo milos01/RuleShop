@@ -80,4 +80,6 @@ public interface BuyerCategoryDAO {
     List<Bill> findByDateAfterAndCustomer(Date date, int id);
 
     List<Sale> findByDateEndingAfter(Date date);
+
+    void updateBuyer(Buyer buyer);
 }

@@ -25,37 +25,38 @@ public class UserController {
     private RuleService ruleService;
 
     /**
-            * This method will redirect user on index.ftl, otherwise will respond with 404 error response.
-            * @return index.ftl
+     * This method will redirect user on index.ftl, otherwise will respond with 404 error response.
+     *
+     * @return index.ftl
      */
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public String home(@RequestParam(value="email") String email, @RequestParam(value="password") String password, HttpSession session) {
+    public String home(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpSession session) {
         User user = this.ruleService.findUser(email);
 //        System.out.print(user.toString());
-        if (user == null){
+        if (user == null) {
             return "redirect:/";
         }
-        if (!user.getPassword().equals(password)){
+        if (!user.getPassword().equals(password)) {
             return "redirect:/";
         }
-        session.setAttribute("user",user);
+        session.setAttribute("user", user);
         if (user.getRole().getRole_name().equals("buyer")) {
             return "redirect:/home?searchCode=all&searchName=all&category=all&price_from=0&price_to=0";
-        }else if(user.getRole().getRole_name().equals("manager")){
+        } else if (user.getRole().getRole_name().equals("manager")) {
             return "redirect:/manage";
-        }else if(user.getRole().getRole_name().equals("seller")){
+        } else if (user.getRole().getRole_name().equals("seller")) {
             return "redirect:/sellsettings";
         }
         return "redirect:/home";
     }
 
     @RequestMapping(value = "/buyerRegister", method = RequestMethod.POST)
-    public String buyerRegister(@RequestParam(value="email") String email,
-                                @RequestParam(value="password") String password,
-                                @RequestParam(value="f_name") String f_name,
-                                @RequestParam(value="l_name") String l_name,
-                                @RequestParam(value="address") String address,
-                                @RequestParam(value="address_no") int address_no){
+    public String buyerRegister(@RequestParam(value = "email") String email,
+                                @RequestParam(value = "password") String password,
+                                @RequestParam(value = "f_name") String f_name,
+                                @RequestParam(value = "l_name") String l_name,
+                                @RequestParam(value = "address") String address,
+                                @RequestParam(value = "address_no") int address_no) {
         Role role = ruleService.findRole(1);
         BuyerCategory buyerCategory = ruleService.findCategory(1);
 
@@ -76,7 +77,6 @@ public class UserController {
         buyer.setBuyerCategory(buyerCategory);
         buyer.setUser(user);
         ruleService.addBuyer(buyer);
-
 
 
         return "redirect:/";

@@ -93,7 +93,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">Items to order
-                        <#--<button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target=".newCategoryModal"></button>-->
+                    <#--<button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target=".newCategoryModal"></button>-->
                     </div>
 
                     <div class="panel-body">
@@ -107,11 +107,13 @@
                                     <div class="modal-content">
                                         <form method="POST" action="/orderItem">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <button type="button" class="close" data-dismiss="modal">&times;
+                                                </button>
                                                 <h4 class="modal-title">Order for "${item.name}" item</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <input class="form-control" type="hidden" name="item_id" value="${item.id}">
+                                                <input class="form-control" type="hidden" name="item_id"
+                                                       value="${item.id}">
 
                                                 <div class="form-group">
                                                     <label for="pwd">Quantity</label>
@@ -120,7 +122,9 @@
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Close
+                                                </button>
                                                 <button type="submit" class="btn btn-primary">Order</button>
                                             </div>
                                         </form>
@@ -131,9 +135,10 @@
 
                             <li class="list-group-item">Category: <b style="font-size: 18px">${item.name}</b>
 
-                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem${item.id}" style="margin-left: 10px">order this item</button>
+                                <button class="btn btn-default btn-xs pull-right" data-toggle="modal"
+                                        data-target=".orderItem${item.id}" style="margin-left: 10px">order this item
+                                </button>
                                 <span class="pull-right">Items left in shop: <b>${item.number_left}</b>/ Minimum number on lager: <b>${item.lager_min_state}</b></span>
-                                <#--<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".renameCatetoryModal${cat.id}" style="margin-right: 10px">rename</button>-->
                             </li>
 
                         <#else>

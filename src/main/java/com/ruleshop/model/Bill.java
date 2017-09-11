@@ -22,7 +22,7 @@ public class Bill {
 
     private Date ceated_at;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne( fetch=FetchType.EAGER)
     @JoinColumn(nullable=false, name = "buyer_id")
     private Buyer buyer;
 
@@ -34,7 +34,7 @@ public class Bill {
 
     private Double final_price;
 
-    private int spent_points;
+    private double spent_points;
 
     private int ganed_points;
 
@@ -45,7 +45,7 @@ public class Bill {
     public Set<BillItem> bill_items;
 
     @JsonBackReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bill")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "bill")
     private Set<BillDiscount> discounts;
 
     public void addBillDiscount(BillDiscount billDiscount){
@@ -58,8 +58,25 @@ public class Bill {
         this.setDiscounts(this.discounts);
     }
 
+
+    public void addBonusPointsToUser(int bonusDiscount) {
+
+        setGaned_points((int) ((final_price*bonusDiscount)/100));
+        this.buyer.setPoints(buyer.getPoints() + ((int) ((final_price*bonusDiscount))/100));
+    }
+
     public void applyDiscount(){
-        this.final_price = this.origina_price - (this.origina_price * this.discount_percent)/100;
+        this.final_price = this.origina_price - ((this.origina_price * this.discount_percent)/100);
+//        if (buyer.getPoints() < spent_points) {
+//            spent_points = buyer.getPoints();
+//        }
+//        this.final_price -= spent_points;
+//        buyer.setPoints(buyer.getPoints() - spent_points);
+    }
+
+
+    public void addGeneralDiscount(BillDiscount generalDiscount) {
+        this.discounts.add(generalDiscount);
     }
 
     public Set<BillDiscount> getDiscounts() {
@@ -130,14 +147,16 @@ public class Bill {
     }
 
     public void setFinal_price(Double final_price) {
+
+        System.err.print(final_price);
         this.final_price = final_price;
     }
 
-    public int getSpent_points() {
+    public double getSpent_points() {
         return spent_points;
     }
 
-    public void setSpent_points(int spent_points) {
+    public void setSpent_points(double spent_points) {
         this.spent_points = spent_points;
     }
 

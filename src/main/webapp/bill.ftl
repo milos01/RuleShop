@@ -95,49 +95,16 @@
                     <div class="panel-heading">Items to order
                         <span class="pull-right">
                             <form method="POST" action="/filterBills">
-                                <#--<input type="radio" name="state" value="porucen"> Ordered-->
-                                <#--<input type="radio" name="state" value="odbijen"> Rejected-->
-                                <#--<input type="radio" name="state" value="uspesno_realizovan"> Successfully receved-->
                                 <a href="/billingsettings?filter=all" type="button" class="btn btn-primary btn-xs">All</a>
                                 <a href="/billingsettings?filter=ordered" type="button" class="btn btn-primary btn-xs">Ordered</a>
                                 <a href="/billingsettings?filter=rejected" type="button" class="btn btn-primary btn-xs">Rejected</a>
                                 <a href="/billingsettings?filter=successfully_receved" type="button" class="btn btn-primary btn-xs">Successfully receved</a>
                             </form>
                         </span>
-                    <#--<button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target=".newCategoryModal"></button>-->
                     </div>
 
-                    <div class="panel-body">
-                        <ul class="list-group">
                         <#list bills as bill>
-                        <#--Add limit modal-->
-                            <#--<div class="modal fade orderItem${item.id}" role="dialog">-->
-                                <#--<div class="modal-dialog">-->
 
-                                    <#--<!-- Modal content&ndash;&gt;-->
-                                    <#--<div class="modal-content">-->
-                                        <#--<form method="POST" action="/orderItem">-->
-                                            <#--<div class="modal-header">-->
-                                                <#--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                                                <#--<h4 class="modal-title">Order for "${item.name}" item</h4>-->
-                                            <#--</div>-->
-                                            <#--<div class="modal-body">-->
-                                                <#--<input class="form-control" type="hidden" name="item_id" value="${item.id}">-->
-
-                                                <#--<div class="form-group">-->
-                                                    <#--<label for="pwd">Quantity</label>-->
-                                                    <#--<input class="form-control" type="number" name="item_quantity">-->
-                                                <#--</div>-->
-
-                                            <#--</div>-->
-                                            <#--<div class="modal-footer">-->
-                                                <#--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                                <#--<button type="submit" class="btn btn-primary">Order</button>-->
-                                            <#--</div>-->
-                                        <#--</form>-->
-                                    <#--</div>-->
-                                <#--</div>-->
-                            <#--</div>-->
                             <!-- End limit modal -->
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -183,16 +150,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <#--<li class="list-group-item">Bill: <b style="font-size: 18px">${bill.id}</b>-->
-
-                                <#--<#if bill.state == "porucen">-->
-                                    <#--<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem" style="margin-left: 10px">Submit order</button>-->
-                                <#--</#if>-->
-                                <#--&lt;#&ndash;<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".orderItem${item.id}" style="margin-left: 10px">order this item</button>&ndash;&gt;-->
-                                <#--&lt;#&ndash;<span class="pull-right">Items left in shop: <b>${item.number_left}</b>/ Minimum number on lager: <b>${item.lager_min_state}</b></span>&ndash;&gt;-->
-                            <#--&lt;#&ndash;<button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target=".renameCatetoryModal${cat.id}" style="margin-right: 10px">rename</button>&ndash;&gt;-->
-                            <#--</li>-->
-
                         <#else>
                             No items for order found!
                         </#list>

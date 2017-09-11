@@ -24,10 +24,10 @@ public class UserDAOImplementation implements UserDAO {
     public User findUser(String email) {
         Session session = this.sessionFactory.getCurrentSession();
         Query query = session.createQuery("from User u where u.email=:email");
-        query.setParameter("email",email);
+        query.setParameter("email", email);
         List<User> userList = query.list();
         User user = null;
-        for(User a:userList){
+        for (User a : userList) {
             user = a;
         }
 
@@ -38,10 +38,10 @@ public class UserDAOImplementation implements UserDAO {
     public Role findRole(int i) {
         Session session = this.sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Role r where r.id=:id");
-        query.setParameter("id",i);
+        query.setParameter("id", i);
         List<Role> roleList = query.list();
         Role role = null;
-        for(Role a:roleList){
+        for (Role a : roleList) {
             role = a;
         }
 

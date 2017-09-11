@@ -22,8 +22,8 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<BuyerCategory> getAllBCategories() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from BuyerCategory");
-        List<BuyerCategory> list=query.list();
+        Query query = session.createQuery("from BuyerCategory");
+        List<BuyerCategory> list = query.list();
         return list;
     }
 
@@ -42,11 +42,11 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public BuyerCategory findCactegory(int category_id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from BuyerCategory bc where bc.id=:id");
-        query.setParameter("id",category_id);
+        Query query = session.createQuery("from BuyerCategory bc where bc.id=:id");
+        query.setParameter("id", category_id);
         List<BuyerCategory> bcList = query.list();
         BuyerCategory b = null;
-        for(BuyerCategory a:bcList){
+        for (BuyerCategory a : bcList) {
             b = a;
         }
 
@@ -56,11 +56,11 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public CategoryLimit findLimit(int limit_id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from CategoryLimit cl where cl.id=:id");
-        query.setParameter("id",limit_id);
+        Query query = session.createQuery("from CategoryLimit cl where cl.id=:id");
+        query.setParameter("id", limit_id);
         List<CategoryLimit> clList = query.list();
         CategoryLimit c = null;
-        for(CategoryLimit a:clList){
+        for (CategoryLimit a : clList) {
             c = a;
         }
 
@@ -88,19 +88,19 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<ItemCategory> getAllICategories() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from ItemCategory");
-        List<ItemCategory> list=query.list();
+        Query query = session.createQuery("from ItemCategory");
+        List<ItemCategory> list = query.list();
         return list;
     }
 
     @Override
     public ItemCategory findItemCategory(int category_id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from ItemCategory ic where ic.id=:id");
-        query.setParameter("id",category_id);
+        Query query = session.createQuery("from ItemCategory ic where ic.id=:id");
+        query.setParameter("id", category_id);
         List<ItemCategory> clList = query.list();
         ItemCategory c = null;
-        for(ItemCategory a:clList){
+        for (ItemCategory a : clList) {
             c = a;
         }
 
@@ -123,19 +123,19 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<Sale> getAllSales() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Sale");
-        List<Sale> list=query.list();
+        Query query = session.createQuery("from Sale");
+        List<Sale> list = query.list();
         return list;
     }
 
     @Override
     public Sale findSale(int category_id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Sale s where s.id=:id");
-        query.setParameter("id",category_id);
+        Query query = session.createQuery("from Sale s where s.id=:id");
+        query.setParameter("id", category_id);
         List<Sale> saleList = query.list();
         Sale c = null;
-        for(Sale a:saleList){
+        for (Sale a : saleList) {
             c = a;
         }
 
@@ -152,20 +152,20 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<Item> getItemsForOrder() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Item it where it.needOrder =:needOrder");
+        Query query = session.createQuery("from Item it where it.needOrder =:needOrder");
         query.setParameter("needOrder", true);
-        List<Item> list=query.list();
+        List<Item> list = query.list();
         return list;
     }
 
     @Override
     public Item findItem(int item_id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Item s where s.id=:id");
+        Query query = session.createQuery("from Item s where s.id=:id");
         query.setParameter("id", item_id);
         List<Item> saleList = query.list();
         Item c = null;
-        for(Item a:saleList){
+        for (Item a : saleList) {
             c = a;
         }
 
@@ -181,15 +181,15 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<Bill> getAllBills() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Bill b");
-        List<Bill> list=query.list();
+        Query query = session.createQuery("from Bill b");
+        List<Bill> list = query.list();
         return list;
     }
 
     @Override
     public List<Bill> getOrderedBills() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Bill b where b.state=:state");
+        Query query = session.createQuery("from Bill b where b.state=:state");
         query.setParameter("state", "porucen");
         List<Bill> saleList = query.list();
 
@@ -199,7 +199,7 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<Bill> getRejectedBills() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Bill b where b.state=:state");
+        Query query = session.createQuery("from Bill b where b.state=:state");
         query.setParameter("state", "odbijen");
         List<Bill> saleList = query.list();
 
@@ -209,11 +209,11 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public Bill findBill(int bill_id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Bill b where b.id=:id");
+        Query query = session.createQuery("from Bill b where b.id=:id");
         query.setParameter("id", bill_id);
         List<Bill> saleList = query.list();
         Bill c = null;
-        for(Bill a:saleList){
+        for (Bill a : saleList) {
             c = a;
         }
 
@@ -223,11 +223,11 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public Item findBillByName(String item_name) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Item i where i.name=:name");
+        Query query = session.createQuery("from Item i where i.name=:name");
         query.setParameter("name", item_name);
         List<Item> saleList = query.list();
         Item c = null;
-        for(Item a:saleList){
+        for (Item a : saleList) {
             c = a;
         }
 
@@ -241,63 +241,11 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     }
 
 
-
     @Override
     public List<Item> getAllSICategories(String searchCode, String searchName, String category, Double price_from, Double price_to) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.itemCategory.name=:category  and i.price>:price_from and i.price<:price_to");
-//        if (!searchCode.equals("") && searchName.equals("") && category.equals("") && price_from == null && price_to == null){
-//            Query query=session.createQuery("from Item i where  i.code=:searchCode");
-//        }else if (searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from == null && price_to == null){
-//            Query query=session.createQuery("from Item i where  i.name=:searchName");
-//        }else if (searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from == null && price_to == null){
-//            Query query=session.createQuery("from Item i where  i.itemCategory.name=:category");
-//        }else if (searchCode.equals("") && searchName.equals("") && category.equals("") && price_from != null && price_to == null){
-//            Query query=session.createQuery("from Item i where  i.price>:price_from");
-//        }else if (searchCode.equals("") && searchName.equals("") && category.equals("") && price_from == null && price_to != null){
-//            Query query=session.createQuery("from Item i where  i.price<:price_from");
-//        }else if (!searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from == null && price_to == null){
-//            Query query=session.createQuery("from Item i where  i.code=:searchCode and i.name=:searchName");
-//        }else if (!searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from == null && price_to == null){
-//            Query query=session.createQuery("from Item i where  i.code=:searchCode and i.itemCategory.name=:category");
-//        } else if (!searchCode.equals("") && searchName.equals("") && category.equals("") && price_from != null && price_to == null){
-//            Query query=session.createQuery("from Item i where  i.code=:searchCode and i.price>:price_from");
-//        } else if (!searchCode.equals("") && searchName.equals("") && category.equals("") && price_from == null && price_to != null){
-//            Query query=session.createQuery("from Item i where  i.code=:searchCode and i.price<:price_from");
-//        }else if (searchCode.equals("") && !searchName.equals("") && !category.equals("") && price_from == null && price_to == null){
-//            Query query=session.createQuery("from Item i where i.name=:searchName and i.itemCategory.name=:category");
-//        }else if (searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from != null && price_to == null){
-//            Query query=session.createQuery("from Item i where i.name=:searchName and i.price>:price_from");
-//        }else if (searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from == null && price_to != null){
-//            Query query=session.createQuery("from Item i where i.name=:searchName and i.price<:price_from");
-//        }else if (searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from != null && price_to == null){
-//            Query query=session.createQuery("from Item i where i.itemCategory.name=:category and i.price>:price_from");
-//        }else if (searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from == null && price_to != null){
-//            Query query=session.createQuery("from Item i where i.itemCategory.name=:category and i.price<:price_from");
-//        }else if (searchCode.equals("") && searchName.equals("") && category.equals("") && price_from != null && price_to != null){
-//            Query query=session.createQuery("from Item i where i.price>:price_from and i.price<:price_from");
-//        }else if (!searchCode.equals("") && !searchName.equals("") && !category.equals("") && price_from == null && price_to == null){
-//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.itemCategory.name=:category");
-//        }else if (!searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from != null && price_to == null){
-//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.price>:price_from");
-//        }else if (!searchCode.equals("") && !searchName.equals("") && category.equals("") && price_from == null && price_to != null){
-//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.price<:price_from");
-//        }else if (!searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from != null && price_to == null){
-//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.itemCategory.name=:category and i.price>:price_from");
-//        }else if (!searchCode.equals("") && searchName.equals("") && !category.equals("") && price_from == null && price_to != null){
-//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.itemCategory.name=:category and i.price<:price_from");
-//        }else if (!searchCode.equals("") && searchName.equals("") && category.equals("") && price_from != null && price_to != null){
-//            Query query=session.createQuery("from Item i where i.code=:searchCode and i.price>:price_from and i.price<:price_from");
-//        }
+        Query query = session.createQuery("from Item i where i.code=:searchCode and i.name=:searchName and i.itemCategory.name=:category  and i.price>:price_from and i.price<:price_to");
 
-
-
-
-
-
-
-
-//             Query query=session.createQuery("from Item i where i.name =:searchName and i.code=:searchCode");
         query.setParameter("searchName", searchName);
         query.setParameter("searchCode", searchCode);
         query.setParameter("category", category);
@@ -312,7 +260,7 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<Item> getAllItems() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Item i");
+        Query query = session.createQuery("from Item i");
         List<Item> saleList = query.list();
 
         return saleList;
@@ -327,7 +275,7 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<Cart> getUserCartItems(int id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Cart c where c.user.id=:id");
+        Query query = session.createQuery("from Cart c where c.user.id=:id");
         query.setParameter("id", id);
         List<Cart> saleList = query.list();
 
@@ -368,7 +316,7 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<Bill> findByDateAfterAndCustomer(Date date, int id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Bill b where b.buyer.id=:id and b.ceated_at > :time");
+        Query query = session.createQuery("from Bill b where b.buyer.id=:id and b.ceated_at > :time");
         query.setParameter("id", id);
         query.setParameter("time", date);
         List<Bill> saleList = query.list();
@@ -379,7 +327,7 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     @Override
     public List<Sale> findByDateEndingAfter(Date date) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Sale s where s.sale_from < :now and s.sale_to > :now");
+        Query query = session.createQuery("from Sale s where s.sale_from < :now and s.sale_to > :now");
 
         query.setParameter("now", date);
         List<Sale> saleList = query.list();
@@ -388,9 +336,16 @@ public class BuyerCategoryDAOImplementation implements BuyerCategoryDAO {
     }
 
     @Override
+    public void updateBuyer(Buyer buyer) {
+        System.err.print(buyer);
+        Session session = this.sessionFactory.getCurrentSession();
+        session.merge(buyer);
+    }
+
+    @Override
     public List<Bill> getSuccessBills() {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query=session.createQuery("from Bill b where b.state=:state");
+        Query query = session.createQuery("from Bill b where b.state=:state");
         query.setParameter("state", "uspesno_realizovan");
         List<Bill> saleList = query.list();
 

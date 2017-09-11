@@ -22,16 +22,16 @@ public class Buyer {
 
     private double points;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private User user;
+    User user;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(nullable=false, name = "category_id")
     BuyerCategory buyerCategory;
 
     @JsonBackReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "buyer")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "buyer")
     private Set<Bill> bills;
 
     public Set<Bill> getBills() {
@@ -88,5 +88,12 @@ public class Buyer {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Buyer{" +
+                "points=" + points +
+                '}';
     }
 }

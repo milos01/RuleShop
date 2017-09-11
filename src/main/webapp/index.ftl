@@ -37,34 +37,34 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    <#if user??>
-                        <!--@else-->
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                <span class="caret"></span>
-                            </a>
+                <#if user??>
+                    <!--@else-->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="caret"></span>
+                        </a>
 
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
 
 
-                                    <form id="logout-form" action="#" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                                <!--@if(Auth::user()->hasRole('manager'))-->
-                                <li>
-                                    <a href="#">
-                                        Manage settings
-                                    </a>
-                                </li>
-                                <!--@endif-->
-                            </ul>
-                        </li>
-                    <#else>
-                        <li><a href="/">Login</a></li>
-                        <li><a href="/register">Register</a></li>
-                    </#if>
+                                <form id="logout-form" action="#" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                            <!--@if(Auth::user()->hasRole('manager'))-->
+                            <li>
+                                <a href="#">
+                                    Manage settings
+                                </a>
+                            </li>
+                            <!--@endif-->
+                        </ul>
+                    </li>
+                <#else>
+                    <li><a href="/">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                </#if>
 
                 </ul>
             </div>

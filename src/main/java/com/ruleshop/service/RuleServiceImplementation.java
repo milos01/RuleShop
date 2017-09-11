@@ -45,11 +45,6 @@ public class RuleServiceImplementation implements RuleService {
     }
 
     @Override
-    public Bill getBillDiscounts(Bill item) {
-        return null;
-    }
-
-    @Override
     public void extraItemDiscount(BillItem item, Bill invoice) {
         KieSession kieSession = kieContainer.newKieSession();
         kieSession.insert(invoice);
@@ -80,9 +75,43 @@ public class RuleServiceImplementation implements RuleService {
     }
 
     @Override
-    @Transactional
-    public List<Sale> findByDateEndingAfter(Date date) {
-        return this.buyerCategoryDAO.findByDateEndingAfter(date);
+    public Bill generalDiscount(Bill invoice) {
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.setGlobal("date2YearsAgo", getDate2YearsAgo());
+        kieSession.insert(invoice);
+        kieSession.getAgenda().getAgendaGroup("general-discount").setFocus();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return invoice;
+    }
+
+    @Override
+    public Bill finalDiscount(Bill bill) {
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.setGlobal("date2YearsAgo", getDate2YearsAgo());
+        kieSession.insert(bill);
+        kieSession.getAgenda().getAgendaGroup("final-discount").setFocus();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return bill;
+    }
+
+    @Override
+    public Buyer addBonusPoints(Bill bill) {
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.insert(bill);
+        kieSession.getAgenda().getAgendaGroup("bonus-points").setFocus();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return bill.getBuyer();
+    }
+
+
+
+    private Date getDate2YearsAgo() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -2);
+        return calendar.getTime();
     }
 
     @Override
@@ -131,6 +160,23 @@ public class RuleServiceImplementation implements RuleService {
         kieSession.fireAllRules();
         kieSession.dispose();
         return item;
+    }
+
+    @Override
+    public Bill getBillDiscounts(Bill item) {
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public void updateBuyer(Buyer buyer) {
+        this.buyerCategoryDAO.updateBuyer(buyer);
+    }
+
+    @Override
+    @Transactional
+    public List<Sale> findByDateEndingAfter(Date date) {
+        return this.buyerCategoryDAO.findByDateEndingAfter(date);
     }
 
     @Override
@@ -343,11 +389,6 @@ public class RuleServiceImplementation implements RuleService {
     public void addCartItem(Cart cart) {
         this.buyerCategoryDAO.addCartItem(cart);
     }
-
-//    @Override
-//    public Item getFillingStock(Item item) {
-//        return null;
-//    }
 
 
     @Override
